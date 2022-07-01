@@ -4,8 +4,9 @@ from Logic.Direction import Direction
 
 from Logic.TileSet import TileSet
 
-SCREEN_WIDTH = 720
-SCREEN_HEIGHT = 480
+SCREEN_WIDTH = 720  # px
+SCREEN_HEIGHT = 480  # px
+TILE_SIZE = 16  # in pixels
 
 TILEMAP_SIZE = 10
 
@@ -62,23 +63,11 @@ while running:
 
             # draw terrain
             tile = tileset.tiles[i][j]
-            screen.blit(
-                tile.tileType.texture,
-                (
-                    tile.tileType.texture.get_width() * i,
-                    tile.tileType.texture.get_height() * j,
-                ),
-            )
+            screen.blit(tile.tileType.texture, (TILE_SIZE * i, TILE_SIZE * j))
 
             # draw any game objects that are in this tile
             if tile.npc:
-                screen.blit(
-                    tile.npc.texture,
-                    (
-                        tile.npc.texture.get_width() * i,
-                        tile.npc.texture.get_height() * j,
-                    ),
-                )
+                screen.blit(tile.npc.texture, (TILE_SIZE * i, TILE_SIZE * j))
 
             # draw number of tile (for debugging)
             text_surface = default_font.render(f"({i},{j})", False, (0, 0, 0))
