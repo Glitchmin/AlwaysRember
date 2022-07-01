@@ -13,5 +13,5 @@ class TileType(Enum):
 class Tile:
     def __init__(self, tileType: TileType):
         self.__tileType = tileType
-        self.__npcsTab: [AbstractNPC] = []
+        self.__npcsTab: list[AbstractNPC] = []
         self.item = None

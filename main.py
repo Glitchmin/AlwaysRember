@@ -1,6 +1,8 @@
 import pygame
 import random
 
+from Logic.TileSet import TileSet
+
 SCREEN_WIDTH = 720
 SCREEN_HEIGHT = 480
 
@@ -16,7 +18,7 @@ running = True
 ground_texture = pygame.image.load(open("textures/ground.png"))
 stone_texture = pygame.image.load(open("textures/stone.png"))
 
-def generate_map() -> list[list[pygame.Surface]]:
+def generate_map() -> TileSet:
     tilemap: list[list[pygame.Surface]] = []    
 
     # fill with default ground tiles

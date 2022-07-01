@@ -1,6 +1,6 @@
 from pygame.surface import Surface
 
-from DirectionsEnum import Direction
+from Logic.DirectionsEnum import Direction
 
 
 class AbstractNPC:
@@ -14,7 +14,7 @@ class AbstractNPC:
         self.__x -= dir.value[0]
         self.__y -= dir.value[1]
 
-    def getPosition(self) -> (int, int):
+    def getPosition(self) -> tuple[int, int]:
         return self.__x, self.__y
 
     def getTexture(self) -> Surface:
