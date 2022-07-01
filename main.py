@@ -45,7 +45,7 @@ while running:
         camera_y -= camera_step_y
     elif key_pressed[pygame.K_s]:
         camera_y += camera_step_y
-        
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
