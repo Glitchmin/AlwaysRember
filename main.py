@@ -1,49 +1,40 @@
-# Simple pygame program
-
-
-# Import and initialize the pygame library
-
 import pygame
+import random
+
+SCREEN_WIDTH = 720
+SCREEN_HEIGHT = 480
 
 pygame.init()
+pygame.display.set_caption("AlwaysRember")
 
-
-# Set up the drawing window
-
-screen = pygame.display.set_mode([500, 500])
-
-
-# Run until the user asks to quit
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 running = True
 
+ground_texture_file = open("textures/ground.png")
+ground_texture = pygame.image.load(ground_texture_file)
+
 while running:
-
-
-    # Did the user click the window close button?
-
     for event in pygame.event.get():
-
         if event.type == pygame.QUIT:
-
             running = False
-
-
-    # Fill the background with white
 
     screen.fill((255, 255, 255))
 
-
-    # Draw a solid blue circle in the center
-
     pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
 
+    for i in range(SCREEN_HEIGHT // 16):
+        for j in range(SCREEN_WIDTH // 16):
 
-    # Flip the display
+
+            screen.blit(
+                ground_texture,
+                (
+                    ground_texture.get_width() * i,
+                    ground_texture.get_height() * j,
+                ),
+            )
 
     pygame.display.flip()
-
-
-# Done! Time to quit.
 
 pygame.quit()
