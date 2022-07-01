@@ -1,6 +1,6 @@
 from pygame.surface import Surface
 
-from textures.Logic.AbstractNPC import AbstractNPC
+from Logic.AbstractNPC import AbstractNPC
 
 
 class Player(AbstractNPC):
