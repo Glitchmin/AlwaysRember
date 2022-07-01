@@ -1,4 +1,5 @@
 import pygame
+import random
 
 SCREEN_WIDTH = 720
 SCREEN_HEIGHT = 480
@@ -24,6 +25,8 @@ while running:
 
     for i in range(SCREEN_HEIGHT // 16):
         for j in range(SCREEN_WIDTH // 16):
+
+
             screen.blit(
                 ground_texture,
                 (
