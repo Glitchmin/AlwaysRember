@@ -43,5 +43,5 @@ class Tile:
         return self.__npc
 
     @npc.setter
-    def npc(self, npc: AbstractNPC):
+    def npc(self, npc: AbstractNPC | None):
         self.__npc = npc

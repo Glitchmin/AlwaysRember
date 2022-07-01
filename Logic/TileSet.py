@@ -1,5 +1,5 @@
 from Logic.AbstractNPC import AbstractNPC
-from Logic.DirectionsEnum import Direction
+from Logic.Direction import Direction
 from Logic.Tile import TileType
 from Logic.Tile import Tile
 import random
@@ -15,7 +15,9 @@ class TileSet:
 
     def move_npc(self, pos_start: tuple[int, int], dir: Direction, npc: AbstractNPC):
         start_tile: Tile = self.tiles[pos_start[0]][pos_start[1]]
-        final_tile: Tile = self.tiles[pos_start[0] + dir.value[0]][pos_start[1] + dir.value[1]]
+        final_tile: Tile = self.tiles[pos_start[0] + dir.value[0]][
+            pos_start[1] + dir.value[1]
+        ]
         if final_tile.npc is None and final_tile.tileType.walkable:
             final_tile.npc = npc
             start_tile.npc = None
