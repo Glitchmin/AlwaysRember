@@ -26,8 +26,8 @@ player_y = TILEMAP_SIZE // 2
 
 camera_x = SCREEN_WIDTH // 2 + (SCREEN_WIDTH / 2)
 camera_y = SCREEN_HEIGHT // 2 + (SCREEN_HEIGHT / 2)
-camera_step_x = SCREEN_WIDTH // TILEMAP_SIZE
-camera_step_y = SCREEN_HEIGHT // TILEMAP_SIZE
+camera_step_x = (SCREEN_WIDTH // TILEMAP_SIZE) / 4
+camera_step_y = (SCREEN_HEIGHT // TILEMAP_SIZE) / 4
 
 player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
 
@@ -36,6 +36,16 @@ tileset.tiles[player.position[0]][player.position[1]].npc = player
 
 
 while running:
+    key_pressed = pygame.key.get_pressed()
+    if key_pressed[pygame.K_a]:
+        camera_x -= camera_step_x
+    elif key_pressed[pygame.K_d]:
+        camera_x += camera_step_x
+    if key_pressed[pygame.K_w]:
+        camera_y -= camera_step_y
+    elif key_pressed[pygame.K_s]:
+        camera_y += camera_step_y
+        
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -53,21 +63,7 @@ while running:
                 case _:
                     pass
 
-            match event.key:
-                case pygame.K_a:
-                    camera_x -= camera_step_x
-                case pygame.K_d:
-                    camera_x += camera_step_x
-                case pygame.K_w:
-                    camera_y -= camera_step_y
-                case pygame.K_s:
-                    camera_y += camera_step_y
-                case _:
-                    pass
-
-            print(
-                f"player pos: {player.position}, camera pos: ({camera_x}, {camera_y})"
-            )
+        print(f"player pos: {player.position}, camera pos: ({camera_x}, {camera_y})")
 
     screen.fill((255, 255, 255))
 
@@ -80,18 +76,22 @@ while running:
             # draw terrain
             tile = tileset.tiles[i][j]
             screen.blit(
-                tile.tileType.texture, ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y)
+                tile.tileType.texture,
+                ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y),
             )
 
             # draw any game objects that are in this tile
             if tile.npc:
                 screen.blit(
-                    tile.npc.texture, ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y)
+                    tile.npc.texture,
+                    ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y),
                 )
 
             # draw number of tile (for debugging)
             text_surface = default_font.render(f"({i},{j})", False, (0, 0, 0))
-            screen.blit(text_surface, ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y))
+            screen.blit(
+                text_surface, ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y)
+            )
 
     pygame.display.flip()
 
