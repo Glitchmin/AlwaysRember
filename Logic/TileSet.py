@@ -34,6 +34,10 @@ class TileSet:
     def get_tile(self, x: int, y: int):
         return self.tiles[x][y]
 
+    def addEnemy(self, enemy: Enemy):
+        self.enemies.append(enemy)
+        self.tiles[2][2].npc = enemy
+
     @staticmethod
     def generate(size: int, player: Player) -> "TileSet":
         tileset = TileSet(size, size, player)
@@ -44,7 +48,7 @@ class TileSet:
                     continue
 
                 tileset.tiles[i][j] = Tile(TileType.STONE)
-        tileset.enemies.append(Enemy(2, 2, EnemyTypes.BABOL, player))
+        tileset.addEnemy(Enemy(2, 2, EnemyTypes.BABOL, player))
         return tileset
 
     def inbounds(self, position: tuple[int, int]):
