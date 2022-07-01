@@ -16,14 +16,16 @@ screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 running = True
 
-
-tilemap = TileSet.generate(TILEMAP_SIZE)
-
+# TODO: create some init method
 
 player_x = TILEMAP_SIZE // 2
 player_y = TILEMAP_SIZE // 2
 
 player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
+
+tileset = TileSet.generate(TILEMAP_SIZE)
+tileset.tiles[player.getPosition()[0]][player.getPosition()[1]].npc = player
+
 
 while running:
     for event in pygame.event.get():
@@ -36,20 +38,26 @@ while running:
 
             match event.key:
                 case pygame.K_LEFT:
-                    player.move(Direction.LEFT)
+                    tileset.move_npc(player.getPosition(), Direction.LEFT, player)
                 case pygame.K_RIGHT:
-                    player.move(Direction.RIGHT)
+                    tileset.move_npc(player.getPosition(), Direction.RIGHT, player)
+                case pygame.K_UP:
+                    tileset.move_npc(player.getPosition(), Direction.UP, player)
+                case pygame.K_DOWN:
+                    tileset.move_npc(player.getPosition(), Direction.DOWN, player)
                 case _:
                     pass
+
+        print(f"{player.getPosition()}")
 
     screen.fill((255, 255, 255))
 
     pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
 
     # draw ground texture
-    for i in range(len(tilemap.tiles)):
-        for j in range(len(tilemap.tiles[i])):
-            tile = tilemap.tiles[i][j]
+    for i in range(len(tileset.tiles)):
+        for j in range(len(tileset.tiles[i])):
+            tile = tileset.tiles[i][j]
             texture = tile.tileType.texture
             screen.blit(
                 texture,
@@ -61,10 +69,11 @@ while running:
             if tile.npc:
                 screen.blit(
                     tile.npc.getTexture(),
-                    tile.npc.getPosition(),
+                    (
+                        texture.get_width() * i,
+                        texture.get_height() * j,
+                    ),
                 )
-
-    tilemap.tiles[player.getPosition()[0]][player.getPosition()[1]].npc = player
 
     pygame.display.flip()
 

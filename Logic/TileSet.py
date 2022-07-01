@@ -14,6 +14,7 @@ class TileSet:
         ]
 
     def move_npc(self, pos_start: tuple[int, int], dir: Direction, npc: AbstractNPC):
+        pos_start = npc.getPosition()
         start_tile: Tile = self.tiles[pos_start[0]][pos_start[1]]
         final_tile: Tile = self.tiles[pos_start[0] + dir.value[0]][
             pos_start[1] + dir.value[1]
@@ -21,6 +22,8 @@ class TileSet:
         if final_tile.npc is None and final_tile.tileType.walkable:
             final_tile.npc = npc
             start_tile.npc = None
+
+        npc.move(dir)
 
     def get_tile(self, x: int, y: int):
         return self.tiles[x][y]
