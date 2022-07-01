@@ -9,4 +9,3 @@ class Player(AbstractNPC):
         self.leftHand = None
         self.rightHand = None
         self.backHand = None
-

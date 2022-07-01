@@ -20,7 +20,10 @@ class LightSource(AbstractItem):
         self.angle = angle
 
 
-ItemTab = [Weapon("Crowbar", 1, 0.5), LightSource("torch", 2, 360), ]
+ItemTab = [
+    Weapon("Crowbar", 1, 0.5),
+    LightSource("torch", 2, 360),
+]
 
 
 class Item(Enum):
