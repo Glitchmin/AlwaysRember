@@ -21,6 +21,11 @@ running = True
 player_x = TILEMAP_SIZE // 2
 player_y = TILEMAP_SIZE // 2
 
+camera_x = SCREEN_WIDTH // 2
+camera_y = SCREEN_HEIGHT // 2
+camera_step_x = SCREEN_WIDTH // TILEMAP_SIZE
+camera_step_y = SCREEN_HEIGHT // TILEMAP_SIZE
+
 player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
 
 tileset = TileSet.generate(TILEMAP_SIZE)
@@ -36,12 +41,16 @@ while running:
             match event.key:
                 case pygame.K_LEFT:
                     tileset.move_npc(Direction.LEFT, player)
+                    camera_x -= camera_step_x
                 case pygame.K_RIGHT:
                     tileset.move_npc(Direction.RIGHT, player)
+                    camera_x += camera_step_x
                 case pygame.K_UP:
                     tileset.move_npc(Direction.UP, player)
+                    camera_y -= camera_step_y
                 case pygame.K_DOWN:
                     tileset.move_npc(Direction.DOWN, player)
+                    camera_y += camera_step_y
                 case _:
                     pass
 
@@ -57,8 +66,8 @@ while running:
             screen.blit(
                 texture,
                 (
-                    texture.get_width() * i,
-                    texture.get_height() * j,
+                    (texture.get_width() * i) + camera_x,
+                    (texture.get_height() * j) + camera_y,
                 ),
             )
             if tile.npc:
