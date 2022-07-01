@@ -34,7 +34,7 @@ class TileSet:
     def get_tile(self, x: int, y: int):
         return self.tiles[x][y]
 
-    def addEnemy(self, enemy: Enemy):
+    def add_enemy(self, enemy: Enemy):
         self.enemies.append(enemy)
         self.tiles[2][2].npc = enemy
 
@@ -48,7 +48,7 @@ class TileSet:
                     continue
 
                 tileset.tiles[i][j] = Tile(TileType.STONE)
-        tileset.addEnemy(Enemy(2, 2, EnemyTypes.BABOL, player))
+        tileset.add_enemy(Enemy(2, 2, EnemyTypes.BABOL, player))
         return tileset
 
     def inbounds(self, position: tuple[int, int]):
@@ -72,7 +72,6 @@ class TileSet:
             position: tuple[int, int] = q.get()
             for direction in Direction:
                 val = direction.value
-                print(f'{direction.value}')
                 new_position: tuple[int, int] = (
                     position[0] + val[0],
                     position[1] + val[1],
