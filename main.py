@@ -24,18 +24,15 @@ player_y = TILEMAP_SIZE // 2
 player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
 
 tileset = TileSet.generate(TILEMAP_SIZE)
-tileset.tiles[player.getPosition()[0]][player.getPosition()[1]].npc = player
+tileset.tiles[player.position[0]][player.position[1]].npc = player
 
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            print(f"{event.key}")
             running = False
 
         if event.type == pygame.KEYDOWN:
-            print(f"{event.key=}")
-
             match event.key:
                 case pygame.K_LEFT:
                     tileset.move_npc( Direction.LEFT, player)
@@ -47,8 +44,6 @@ while running:
                     tileset.move_npc(Direction.DOWN, player)
                 case _:
                     pass
-
-        print(f"{player.getPosition()}")
 
     screen.fill((255, 255, 255))
 
@@ -68,7 +63,7 @@ while running:
             )
             if tile.npc:
                 screen.blit(
-                    tile.npc.getTexture(),
+                    tile.npc.texture,
                     (
                         texture.get_width() * i,
                         texture.get_height() * j,

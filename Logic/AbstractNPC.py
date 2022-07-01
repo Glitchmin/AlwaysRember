@@ -14,8 +14,9 @@ class AbstractNPC:
         self.__x += dir.value[0]
         self.__y += dir.value[1]
 
-    def getPosition(self) -> tuple[int, int]:
+    @property    
+    def position(self) -> tuple[int, int]:
         return self.__x, self.__y
-
-    def getTexture(self) -> Surface:
+    @property        
+    def texture(self) -> Surface:
         return self.__texture
