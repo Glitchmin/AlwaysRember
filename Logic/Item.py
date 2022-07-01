@@ -2,19 +2,19 @@ from enum import Enum
 
 
 class AbstractItem:
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
 
 
 class Weapon(AbstractItem):
-    def __init__(self, name, dmg, cd):
+    def __init__(self, name: str, damage: int, cooldown: float):
         super().__init__(name)
-        self.dmg = dmg
-        self.cd = cd
+        self.dmg = damage
+        self.cooldown = cooldown
 
 
 class LightSource(AbstractItem):
-    def __init__(self, name, radius, angle):
+    def __init__(self, name: str, radius: float, angle: float):
         super().__init__(name)
         self.radius = radius
         self.angle = angle

@@ -35,7 +35,7 @@ while running:
         if event.type == pygame.KEYDOWN:
             match event.key:
                 case pygame.K_LEFT:
-                    tileset.move_npc( Direction.LEFT, player)
+                    tileset.move_npc(Direction.LEFT, player)
                 case pygame.K_RIGHT:
                     tileset.move_npc(Direction.RIGHT, player)
                 case pygame.K_UP:
