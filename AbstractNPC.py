@@ -8,7 +8,8 @@ class AbstractNPC:
         self.__y = y
 
     def move(self, dir: Direction):
-        self.__x -= dir[0]
-        self.__y -= dir[1]
+        self.__x -= dir.value[0]
+        self.__y -= dir.value[1]
 
-
+    def getPosition(self):
+        return (self.__x, self.__y)
