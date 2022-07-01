@@ -1,6 +1,6 @@
 from enum import Enum
 
-from AbstractNPC import AbstractNPC
+from textures.Logic.AbstractNPC import AbstractNPC
 
 walkable = [False, True]
 
