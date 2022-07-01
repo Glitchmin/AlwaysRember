@@ -5,7 +5,7 @@ from Logic.Direction import Direction
 from Logic.TileSet import TileSet
 
 SCREEN_WIDTH = 720  # px
-SCREEN_HEIGHT = 480  # px
+SCREEN_HEIGHT = 720  # px
 TILE_SIZE = 64  # in pixels
 
 TILEMAP_SIZE = 32
@@ -24,8 +24,8 @@ running = True
 player_x = TILEMAP_SIZE // 2
 player_y = TILEMAP_SIZE // 2
 
-camera_x = SCREEN_WIDTH // 2
-camera_y = SCREEN_HEIGHT // 2
+camera_x = SCREEN_WIDTH // 2 + (SCREEN_WIDTH / 2)
+camera_y = SCREEN_HEIGHT // 2 + (SCREEN_HEIGHT / 2)
 camera_step_x = SCREEN_WIDTH // TILEMAP_SIZE
 camera_step_y = SCREEN_HEIGHT // TILEMAP_SIZE
 
