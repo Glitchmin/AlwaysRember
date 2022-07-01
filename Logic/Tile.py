@@ -1,6 +1,7 @@
 from enum import Enum
 
 from Logic.AbstractNPC import AbstractNPC
+from Logic.Item import Item
 
 walkable = [False, True]
 
@@ -13,5 +14,5 @@ class TileType(Enum):
 class Tile:
     def __init__(self, tileType: TileType):
         self.__tileType = tileType
-        self.__npcsTab: list[AbstractNPC] = []
-        self.item = None
+        self.__npc: AbstractNPC | None = None
+        self.item: Item | None = None
