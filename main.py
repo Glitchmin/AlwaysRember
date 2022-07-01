@@ -6,13 +6,13 @@ from Logic.TileSet import TileSet
 
 SCREEN_WIDTH = 720  # px
 SCREEN_HEIGHT = 480  # px
-TILE_SIZE = 16  # in pixels
+TILE_SIZE = 64  # in pixels
 
 TILEMAP_SIZE = 10
 
 pygame.init()
 pygame.font.init()
-default_font = pygame.font.SysFont("Comic Sans MS", 30)
+default_font = pygame.font.SysFont("Comic Sans MS", 15)
 pygame.display.set_caption("AlwaysRember")
 
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
@@ -71,7 +71,7 @@ while running:
 
             # draw number of tile (for debugging)
             text_surface = default_font.render(f"({i},{j})", False, (0, 0, 0))
-            screen.blit(text_surface, (i * 10, j * 10))
+            screen.blit(text_surface, (TILE_SIZE * i, TILE_SIZE * j))
 
     pygame.display.flip()
 
