@@ -29,7 +29,7 @@ while running:
     # draw ground texture
     for i in range(len(tilemap.tiles)):
         for j in range(len(tilemap.tiles[i])):
-            texture = tilemap.tiles[i][j].tileType.get_texture()
+            texture = tilemap.tiles[i][j].tileType.texture
             screen.blit(
                 texture,
                 (

@@ -8,18 +8,24 @@ from Logic.Item import Item
 ground_texture = pygame.image.load(open("textures/ground.png"))
 stone_texture = pygame.image.load(open("textures/stone.png"))
 
-walkable = [False, True]
-
-
 class TileType(Enum):
     GROUND = 0
     STONE = 1
 
-    def get_texture(self) -> pygame.Surface:
+    @property
+    def texture(self) -> pygame.Surface:
         if self == TileType.GROUND:
             return ground_texture
         elif self == TileType.STONE:
             return stone_texture
+
+    @property
+    def walkable(self) -> bool:
+        if self == TileType.GROUND:
+            return True
+        elif self == TileType.STONE:
+            return False
+    
 
 
 class Tile:
