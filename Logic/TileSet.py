@@ -1,17 +1,17 @@
 from Logic.AbstractNPC import AbstractNPC
 from Logic.Direction import Direction
 from Logic.Enemy import Enemy, EnemyTypes
+from Logic.Player import Player
 from Logic.Tile import TileType
 from Logic.Tile import Tile
 import random
 
-from main import player
-
 
 class TileSet:
-    def __init__(self, width: int, height: int):
+    def __init__(self, width: int, height: int, player: Player):
         self.width: int = width
         self.height: int = height
+        self.player = player
         self.tiles: list[list[Tile]] = [
             [Tile(TileType.GROUND) for _ in range(height)] for _ in range(width)
         ]
@@ -31,8 +31,8 @@ class TileSet:
         return self.tiles[x][y]
 
     @staticmethod
-    def generate(size: int) -> "TileSet":
-        tileset = TileSet(size, size)
+    def generate(size: int, player:Player) -> "TileSet":
+        tileset = TileSet(size, size, player)
         # add stones in some random locations
         for i in range(size):
             for j in range(size):
@@ -40,6 +40,5 @@ class TileSet:
                     continue
 
                 tileset.tiles[i][j] = Tile(TileType.STONE)
-
         tileset.enemies.append(Enemy(2, 2, EnemyTypes.BABOL, player))
         return tileset

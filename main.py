@@ -28,7 +28,7 @@ camera_step_y = SCREEN_HEIGHT // TILEMAP_SIZE
 
 player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
 
-tileset = TileSet.generate(TILEMAP_SIZE)
+tileset = TileSet.generate(TILEMAP_SIZE, player)
 tileset.tiles[player.position[0]][player.position[1]].npc = player
 
 
