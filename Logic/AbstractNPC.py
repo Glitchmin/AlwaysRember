@@ -11,8 +11,8 @@ class AbstractNPC:
         self.__texture = texture
 
     def move(self, dir: Direction):
-        self.__x -= dir.value[0]
-        self.__y -= dir.value[1]
+        self.__x += dir.value[0]
+        self.__y += dir.value[1]
 
     def getPosition(self) -> tuple[int, int]:
         return self.__x, self.__y

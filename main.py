@@ -7,7 +7,7 @@ from Logic.TileSet import TileSet
 SCREEN_WIDTH = 720
 SCREEN_HEIGHT = 480
 
-TILEMAP_SIZE = 32
+TILEMAP_SIZE = 12
 
 pygame.init()
 pygame.display.set_caption("AlwaysRember")
@@ -38,13 +38,13 @@ while running:
 
             match event.key:
                 case pygame.K_LEFT:
-                    tileset.move_npc(player.getPosition(), Direction.LEFT, player)
+                    tileset.move_npc( Direction.LEFT, player)
                 case pygame.K_RIGHT:
-                    tileset.move_npc(player.getPosition(), Direction.RIGHT, player)
+                    tileset.move_npc(Direction.RIGHT, player)
                 case pygame.K_UP:
-                    tileset.move_npc(player.getPosition(), Direction.UP, player)
+                    tileset.move_npc(Direction.UP, player)
                 case pygame.K_DOWN:
-                    tileset.move_npc(player.getPosition(), Direction.DOWN, player)
+                    tileset.move_npc(Direction.DOWN, player)
                 case _:
                     pass
 
