@@ -1,4 +1,6 @@
 import pygame
+from Logic.Player import Player
+from Logic.Direction import Direction
 
 from Logic.TileSet import TileSet
 
@@ -17,10 +19,28 @@ running = True
 
 tilemap = TileSet.generate(TILEMAP_SIZE)
 
+
+player_x = TILEMAP_SIZE // 2
+player_y = TILEMAP_SIZE // 2
+
+player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            print(f"{event.key}")
             running = False
+
+        if event.type == pygame.KEYDOWN:
+            print(f"{event.key=}")
+
+            match event.key:
+                case pygame.K_LEFT:
+                    player.move(Direction.LEFT)
+                case pygame.K_RIGHT:
+                    player.move(Direction.RIGHT)
+                case _:
+                    pass
 
     screen.fill((255, 255, 255))
 
@@ -29,7 +49,8 @@ while running:
     # draw ground texture
     for i in range(len(tilemap.tiles)):
         for j in range(len(tilemap.tiles[i])):
-            texture = tilemap.tiles[i][j].tileType.texture
+            tile = tilemap.tiles[i][j]
+            texture = tile.tileType.texture
             screen.blit(
                 texture,
                 (
@@ -37,6 +58,13 @@ while running:
                     texture.get_height() * j,
                 ),
             )
+            if tile.npc:
+                screen.blit(
+                    tile.npc.getTexture(),
+                    tile.npc.getPosition(),
+                )
+
+    tilemap.tiles[player.getPosition()[0]][player.getPosition()[1]].npc = player
 
     pygame.display.flip()
 

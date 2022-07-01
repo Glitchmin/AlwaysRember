@@ -1,6 +1,6 @@
 from pygame.surface import Surface
 
-from Logic.DirectionsEnum import Direction
+from Logic.Direction import Direction
 
 
 class AbstractNPC:

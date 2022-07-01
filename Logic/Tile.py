@@ -8,6 +8,7 @@ from Logic.Item import Item
 ground_texture = pygame.image.load(open("textures/ground.png"))
 stone_texture = pygame.image.load(open("textures/stone.png"))
 
+
 class TileType(Enum):
     GROUND = 0
     STONE = 1
@@ -25,7 +26,6 @@ class TileType(Enum):
             return True
         elif self == TileType.STONE:
             return False
-    
 
 
 class Tile:
@@ -35,12 +35,13 @@ class Tile:
         self.item: Item | None = None
 
     @property
-    def tileType(self): 
+    def tileType(self):
         return self.__tileType
 
     @property
-    def npc(self): 
+    def npc(self):
         return self.__npc
-    
 
-
+    @npc.setter
+    def npc(self, npc: AbstractNPC):
+        self.__npc = npc
