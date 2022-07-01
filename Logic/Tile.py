@@ -41,6 +41,10 @@ class Tile:
     @property
     def npc(self): 
         return self.__npc
+
+    @npc.setter
+    def npc(self, value):
+        self._npc = value
     
 
 
