@@ -6,14 +6,12 @@ SCREEN_HEIGHT = 480
 pygame.init()
 pygame.display.set_caption("AlwaysRember")
 
-screen = pygame.display.set_mode([500, 500])
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 running = True
 
 ground_texture_file = open("textures/ground.png")
 ground_texture = pygame.image.load(ground_texture_file)
-
-print(f'width: {ground_texture.get_width()}, height: {ground_texture.get_height()}')
 
 while running:
     for event in pygame.event.get():
@@ -26,7 +24,13 @@ while running:
 
     for i in range(SCREEN_HEIGHT // 16):
         for j in range(SCREEN_WIDTH // 16):
-            screen.blit(ground_texture, (ground_texture.get_width() * i, ground_texture.get_height() * j,))
+            screen.blit(
+                ground_texture,
+                (
+                    ground_texture.get_width() * i,
+                    ground_texture.get_height() * j,
+                ),
+            )
 
     pygame.display.flip()
 
