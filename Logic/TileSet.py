@@ -33,7 +33,7 @@ class TileSet:
         # add stones in some random locations
         for i in range(size):
             for j in range(size):
-                if random.random() > 0.5:
+                if random.random() > 0.2:
                     continue
 
                 tileset.tiles[i][j] = Tile(TileType.STONE)
