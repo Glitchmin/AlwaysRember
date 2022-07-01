@@ -7,7 +7,7 @@ from Logic.TileSet import TileSet
 SCREEN_WIDTH = 720
 SCREEN_HEIGHT = 480
 
-TILEMAP_SIZE = 12
+TILEMAP_SIZE = 32
 
 pygame.init()
 pygame.display.set_caption("AlwaysRember")
@@ -20,6 +20,11 @@ running = True
 
 player_x = TILEMAP_SIZE // 2
 player_y = TILEMAP_SIZE // 2
+
+camera_x = SCREEN_WIDTH // 2
+camera_y = SCREEN_HEIGHT // 2
+camera_step_x = SCREEN_WIDTH // TILEMAP_SIZE
+camera_step_y = SCREEN_HEIGHT // TILEMAP_SIZE
 
 player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
 
@@ -52,21 +57,24 @@ while running:
     # draw ground texture
     for i in range(len(tileset.tiles)):
         for j in range(len(tileset.tiles[i])):
+
+            # draw terrain
             tile = tileset.tiles[i][j]
-            texture = tile.tileType.texture
             screen.blit(
-                texture,
+                tile.tileType.texture,
                 (
-                    texture.get_width() * i,
-                    texture.get_height() * j,
+                    tile.tileType.texture.get_width() * i,
+                    tile.tileType.texture.get_height() * j,
                 ),
             )
+
+            # draw any game objects that are in this tile
             if tile.npc:
                 screen.blit(
                     tile.npc.texture,
                     (
-                        texture.get_width() * i,
-                        texture.get_height() * j,
+                        tile.npc.texture.get_width() * i,
+                        tile.npc.texture.get_height() * j,
                     ),
                 )
 
