@@ -7,9 +7,11 @@ from Logic.TileSet import TileSet
 SCREEN_WIDTH = 720
 SCREEN_HEIGHT = 480
 
-TILEMAP_SIZE = 32
+TILEMAP_SIZE = 10
 
 pygame.init()
+pygame.font.init()
+default_font = pygame.font.SysFont("Comic Sans MS", 30)
 pygame.display.set_caption("AlwaysRember")
 
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
@@ -77,6 +79,10 @@ while running:
                         tile.npc.texture.get_height() * j,
                     ),
                 )
+
+            # draw number of tile (for debugging)
+            text_surface = default_font.render(f"({i},{j})", False, (0, 0, 0))
+            screen.blit(text_surface, (i * 10, j * 10))
 
     pygame.display.flip()
 

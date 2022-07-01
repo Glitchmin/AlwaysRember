@@ -13,8 +13,16 @@ class SearchType(Enum):
 
 
 class Enemy(AbstractNPC):
-    def __init__(self, hp: int, x: int, y: int, texture: Surface, searchRadius: int, searchType: SearchType,
-                 player: Player):
+    def __init__(
+        self,
+        hp: int,
+        x: int,
+        y: int,
+        texture: Surface,
+        searchRadius: int,
+        searchType: SearchType,
+        player: Player,
+    ):
         super().__init__(hp, x, y, texture)
         self.searchRadius = searchRadius
         self.searchType = searchType
@@ -22,7 +30,8 @@ class Enemy(AbstractNPC):
 
     def makeMove(self):
         if self.searchType == SearchType.HEARING:
-            if (self.getPosition()[0] + self.player.getPosition()[0]) ** 2 + \
-                    (self.getPosition()[1] + self.player.getPosition()[1]) ** 2 <= self.searchRadius ** 2:
+            if (self.getPosition()[0] + self.player.getPosition()[0]) ** 2 + (
+                self.getPosition()[1] + self.player.getPosition()[1]
+            ) ** 2 <= self.searchRadius**2:
                 pass
                 # move yourself in the player direction
