@@ -8,7 +8,7 @@ SCREEN_WIDTH = 720  # px
 SCREEN_HEIGHT = 480  # px
 TILE_SIZE = 64  # in pixels
 
-TILEMAP_SIZE = 10
+TILEMAP_SIZE = 32
 
 pygame.init()
 pygame.font.init()
@@ -53,6 +53,22 @@ while running:
                 case _:
                     pass
 
+            match event.key:
+                case pygame.K_a:
+                    camera_x -= camera_step_x
+                case pygame.K_d:
+                    camera_x += camera_step_x
+                case pygame.K_w:
+                    camera_y -= camera_step_y
+                case pygame.K_s:
+                    camera_y += camera_step_y
+                case _:
+                    pass
+
+            print(
+                f"player pos: {player.position}, camera pos: ({camera_x}, {camera_y})"
+            )
+
     screen.fill((255, 255, 255))
 
     pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
@@ -63,15 +79,19 @@ while running:
 
             # draw terrain
             tile = tileset.tiles[i][j]
-            screen.blit(tile.tileType.texture, (TILE_SIZE * i, TILE_SIZE * j))
+            screen.blit(
+                tile.tileType.texture, ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y)
+            )
 
             # draw any game objects that are in this tile
             if tile.npc:
-                screen.blit(tile.npc.texture, (TILE_SIZE * i, TILE_SIZE * j))
+                screen.blit(
+                    tile.npc.texture, ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y)
+                )
 
             # draw number of tile (for debugging)
             text_surface = default_font.render(f"({i},{j})", False, (0, 0, 0))
-            screen.blit(text_surface, (TILE_SIZE * i, TILE_SIZE * j))
+            screen.blit(text_surface, ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y))
 
     pygame.display.flip()
 
