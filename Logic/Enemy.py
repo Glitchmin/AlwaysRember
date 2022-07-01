@@ -54,7 +54,8 @@ class Enemy(AbstractNPC):
 
     def makeMove(self):
         if self.searchType == SearchType.HEARING:
-            if (self.position[0] + self.player.getPosition()[0]) ** 2 + \
-                    (self.position[1] + self.player.getPosition()[1]) ** 2 <= self.searchRadius ** 2:
+            if (self.position[0] + self.player.getPosition()[0]) ** 2 + (
+                self.position[1] + self.player.getPosition()[1]
+            ) ** 2 <= self.searchRadius**2:
                 pass
                 # move yourself in the player direction

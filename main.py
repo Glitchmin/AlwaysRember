@@ -54,12 +54,16 @@ while running:
             match event.key:
                 case pygame.K_LEFT:
                     tileset.move_npc(Direction.LEFT, player)
+                    tileset.update_path()
                 case pygame.K_RIGHT:
                     tileset.move_npc(Direction.RIGHT, player)
+                    tileset.update_path()
                 case pygame.K_UP:
                     tileset.move_npc(Direction.UP, player)
+                    tileset.update_path()
                 case pygame.K_DOWN:
                     tileset.move_npc(Direction.DOWN, player)
+                    tileset.update_path()
                 case _:
                     pass
 
