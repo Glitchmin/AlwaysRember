@@ -54,13 +54,13 @@ class TileSet:
         return self.inbounds(position) and self.tiles[position[0]][position[1]].tileType.walkable and \
                self.tiles[position[0]][position[1]].npc is None
 
-    def update_path(self, player: Player):
+    def update_path(self):
         q: queue = queue.Queue()
-        q.put(player.position)
+        q.put(self.player.position)
         self.dist_to_player: list[list[int]] = [
             [float("inf") for _ in range(self.height)] for _ in range(self.width)
         ]
-        self.dist_to_player[player.position[0]][player.position[1]] = 0
+        self.dist_to_player[self.player.position[0]][self.player.position[1]] = 0
         while not q.empty():
             position: tuple[int, int] = q.get()
             for direction in Direction:
