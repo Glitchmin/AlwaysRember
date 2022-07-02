@@ -23,6 +23,7 @@ class Camera:
         screen_width: int,
         screen_height: int,
         tilemap_size: int,
+        initial_offset: tuple[int, int],
         mode: CameraMode = CameraMode.Free,
     ):
         self.screen = screen
@@ -30,10 +31,10 @@ class Camera:
         self.screen_height = screen_height
         self.tilemap_size = tilemap_size
         self.mode = mode
-        self.x = screen_width // 2 + (screen_width // 2)
-        self.y = screen_height // 2 + (screen_height // 2)
-        self.step_x = (screen_width // tilemap_size) // 4
-        self.step_y = (screen_height // tilemap_size) // 4
+        self.x = initial_offset[0] - screen_width // 2
+        self.y = initial_offset[1] - screen_height // 2
+        self.step_x = (screen_width // tilemap_size)
+        self.step_y = (screen_height // tilemap_size)
 
     def clear(self):
         self.screen.fill((255, 255, 255))

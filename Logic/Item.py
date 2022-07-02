@@ -2,12 +2,17 @@ import pygame as pygame
 
 from helpers import load_resource
 
+import random
 
 class AbstractItem:
     def __init__(self, name: str, texture: pygame.surface.Surface):
         self.name = name
         self.texture = texture
 
+    @classmethod
+    def create_random(cls) -> "AbstractItem":
+        return random.choice(Quests.quest_items)
+        
 
 class Weapon(AbstractItem):
     def __init__(

@@ -3,9 +3,9 @@ import pygame as pygame
 
 from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
-from Logic.Item import LightSource, Quests, Quest
+from Logic.Item import AbstractItem, LightSource, Quests
 from Logic.Player import Player
-from Logic.Tile import Tile, TileType
+from Logic.Tile import  TileType
 from Logic.TileSet import TileSet
 
 from Logic.QuestList import QuestList
@@ -38,7 +38,7 @@ class Game:
         self.running = True
         self.last_time = time.time()
         self.last_player_input = time.time()
-        self.camera = Camera(screen, screen_width, screen_height, tile_size)
+        self.camera = Camera(screen, screen_width, screen_height, tile_size, initial_offset=(tile_size * map_size // 2, tile_size * map_size // 2))
         self.player = Player(
             hp=100,
             x=map_size // 2,
@@ -52,6 +52,8 @@ class Game:
         ].npc = self.player
         self.tileset.update_path()
 
+        self.spawnpoints: list[tuple[int, int]] = []
+
         self.world = load_resource('world.png')
         self.world_material = load_resource('world-material.png')
         for i in range(self.map_size):
@@ -60,6 +62,8 @@ class Game:
                 rgba_out = self.world_material.get_at(pos)
                 if rgba_out == (0, 0, 0, 255):
                     self.tileset.tiles[i][j].tileType = TileType.STONE
+                elif rgba_out == (255, 0, 0, 255):
+                    self.spawnpoints.append((i, j))
 
 
         self.quests: QuestList = QuestList()
@@ -80,6 +84,10 @@ class Game:
         self.day_timer -= elapsed_time
         if self.day_timer < 0:
             if self.is_night:
+                for spawnpoint in self.spawnpoints:
+                    self.tileset[spawnpoint[0]][spawnpoint[1]].item = AbstractItem.create_random()
+
+
                 self.day_timer += self.DAYTIME_LENGTH
             else:
                 self.day_timer += self.NIGHT_LENGTH
@@ -198,9 +206,10 @@ class Game:
                 print("Victory!")
 
     def render(self):
+        pygame.draw.circle(self.screen, (0, 0, 255), (250, 250), 75)
+        
         self.camera.clear()
 
-        pygame.draw.circle(self.screen, (0, 0, 255), (250, 250), 75)
 
         self.camera.render(self.world, 0, 0)
 
@@ -231,9 +240,9 @@ class Game:
 
                 if type(tile.npc) == Player and self.is_night:
                     self.camera.render(tile.npc.texture, i, j)
-                # draw number of tile (for debugging)
-                text_surface = self.font.render(f"({i},{j})", False, (0, 0, 0))
-                self.camera.render(text_surface, i, j)
+                # TODO: draw number of tile (for debugging)
+                #text_surface = self.font.render(f"({i},{j})", False, (0, 0, 0))
+                #self.camera.render(text_surface, i, j)
 
         # draw UI
         self.draw_rect_with_border(
