@@ -78,32 +78,27 @@ class Game:
             if event.type == pygame.QUIT:
                 self.running = False
 
-            # TODO: player move observer (to update path)
             if event.type == pygame.KEYDOWN:
                 match event.key:
                     case pygame.K_LEFT:
                         self.tileset.move_npc(Direction.LEFT, self.player)
-                        self.tileset.update_path()
                     case pygame.K_RIGHT:
                         self.tileset.move_npc(Direction.RIGHT, self.player)
-                        self.tileset.update_path()
                     case pygame.K_UP:
                         self.tileset.move_npc(Direction.UP, self.player)
-                        self.tileset.update_path()
                     case pygame.K_DOWN:
                         self.tileset.move_npc(Direction.DOWN, self.player)
-                        self.tileset.update_path()
                     case pygame.K_c:
                         self.camera.mode = CameraMode.toggle(self.camera.mode)
                     case _:
                         pass
 
-            print(
-                f"player pos: {self.player.position}, camera pos: ({self.camera.x}, {self.camera.y})"
-            )
+        print(
+            f"player pos: {self.player.position}, camera pos: ({self.camera.x}, {self.camera.y})"
+        )
 
         # move enemies
-        self.tileset.move_enemies()
+        self.tileset.update()
 
     def render(self):
         self.camera.clear()

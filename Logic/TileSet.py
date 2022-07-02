@@ -4,12 +4,14 @@ from Logic.Enemy import Enemy, EnemyTypes
 from Logic.Player import Player
 from Logic.Tile import TileType
 from Logic.Tile import Tile
+from Logic.PositionObserver import PositionObserver
 import queue
 import random
 
 
-class TileSet:
+class TileSet(PositionObserver):
     def __init__(self, width: int, height: int, player: Player):
+        super().__init__()
         self.width: int = width
         self.height: int = height
         self.player = player
@@ -20,18 +22,23 @@ class TileSet:
         self.dist_to_player: list[list[int]] = [
             [1_000_000_000 for _ in range(height)] for _ in range(width)
         ]
+        self.__position_changed: bool = False
 
     def update_times(self, elapsed_time: float):
         self.player.update_time(elapsed_time)
         for enemy in self.enemies:
             enemy.update_time(elapsed_time)
 
-    def move_enemies(self):
+    def update(self):
         for enemy in self.enemies:
             self.move_npc(self.get_direction_to_player(enemy.position), enemy)
+        if self.__position_changed:
+            self.update_path()
+            self.__position_changed = False
 
     def move_npc(self, dir: Direction, npc: AbstractNPC):
         if npc.can_move():
+            self.__position_changed = True
             start_tile: Tile = self.tiles[npc.position[0]][npc.position[1]]
             final_tile: Tile = self.tiles[npc.position[0] + dir.value[0]][
                 npc.position[1] + dir.value[1]
@@ -46,7 +53,7 @@ class TileSet:
 
     def add_enemy(self, enemy: Enemy):
         self.enemies.append(enemy)
-        self.tiles[enemy.position[0]][enemy.position[1]].npc = enemy
+        self.tiles[enemy.position[0]][enemy.position[1]].npc = enemy\
 
     @staticmethod
     def generate(size: int, player: Player) -> "TileSet":
@@ -58,7 +65,7 @@ class TileSet:
                     continue
 
                 tileset.tiles[i][j] = Tile(TileType.STONE)
-        tileset.add_enemy(Enemy(2, 2, 0.5, EnemyTypes.BABOL, player))
+        tileset.add_enemy(Enemy(2, 2, 2, EnemyTypes.BABOL, player))
         return tileset
 
     def inbounds(self, position: tuple[int, int]):
