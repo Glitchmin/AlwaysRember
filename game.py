@@ -36,7 +36,7 @@ class Game:
         )
 
         self.tileset = TileSet.generate(map_size, self.player)
-        self.tileset.tiles[self.player.position[0]][
+        self.tileset[self.player.position[0]][
             self.player.position[1]
         ].npc = self.player
         self.tileset.update_path()
@@ -117,6 +117,9 @@ class Game:
                 # draw terrain
                 tile = self.tileset.tiles[i][j]
                 self.camera.render(tile.tileType.texture, i, j)
+
+                if tile.item:
+                    self.camera.render(tile.item.texture, i, j)
 
                 # draw any game objects that are in this tile
                 if tile.npc:

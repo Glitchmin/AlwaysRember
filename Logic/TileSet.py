@@ -1,6 +1,7 @@
 from Logic.AbstractNPC import AbstractNPC
 from Logic.Direction import Direction
 from Logic.Enemy import Enemy, EnemyTypes
+import Logic.Item as Items
 from Logic.Player import Player
 from Logic.Tile import TileType
 from Logic.Tile import Tile
@@ -41,12 +42,12 @@ class TileSet:
                 start_tile.npc = None
                 npc.move(dir)
 
-    def get_tile(self, x: int, y: int):
-        return self.tiles[x][y]
+    def __getitem__(self, index: int):
+        return self.tiles[index]
 
     def add_enemy(self, enemy: Enemy):
         self.enemies.append(enemy)
-        self.tiles[enemy.position[0]][enemy.position[1]].npc = enemy
+        self[enemy.position[0]][enemy.position[1]].npc = enemy
 
     @staticmethod
     def generate(size: int, player: Player) -> "TileSet":
@@ -57,8 +58,19 @@ class TileSet:
                 if random.random() > 0.2:
                     continue
 
-                tileset.tiles[i][j] = Tile(TileType.STONE)
+                tileset[i][j] = Tile(TileType.STONE)
+
         tileset.add_enemy(Enemy(2, 2, 0.5, EnemyTypes.BABOL, player))
+
+        for i in range(size):
+            for j in range(size):
+                if random.random() > 0.01:
+                    continue
+                
+                tile = tileset.tiles[i][j]
+                if tile.tileType == TileType.GROUND:
+                    tileset[i][j].item = Items.axe
+
         return tileset
 
     def inbounds(self, position: tuple[int, int]):
@@ -67,8 +79,8 @@ class TileSet:
     def walkable(self, position: tuple[int, int]):
         return (
             self.inbounds(position)
-            and self.tiles[position[0]][position[1]].tileType.walkable
-            and self.tiles[position[0]][position[1]].npc is None
+            and self[position[0]][position[1]].tileType.walkable
+            and self[position[0]][position[1]].npc is None
         )
 
     def update_path(self):
