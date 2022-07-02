@@ -107,8 +107,8 @@ class TileSet:
             )
             if (
                 self.dist_to_player[new_position[0]][new_position[1]]
-                < self.dist_to_player[position[0]][position[1]] and \
-                    self.dist_to_player[new_position[0]][new_position[1]] < best
+                < self.dist_to_player[position[0]][position[1]]
+                and self.dist_to_player[new_position[0]][new_position[1]] < best
             ):
                 best = self.dist_to_player[new_position[0]][new_position[1]]
                 result = direction

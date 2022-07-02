@@ -3,7 +3,7 @@ from enum import Enum
 import pygame
 from pygame.surface import Surface
 
-from Logic import Player
+from Logic.Player import Player
 from Logic.AbstractNPC import AbstractNPC
 
 babol_texture = pygame.image.load(open("textures/enemy.png"))
@@ -20,28 +20,33 @@ class EnemyTypes(Enum):
 
     @property
     def texture(self) -> pygame.Surface:
-        if self == EnemyTypes.BABOL:
-            return babol_texture
+        match self:
+            case EnemyTypes.BABOL:
+                return babol_texture
 
     @property
     def searchType(self) -> SearchType:
-        if self == EnemyTypes.BABOL:
-            return SearchType.HEARING
+        match self:
+            case EnemyTypes.BABOL:
+                return SearchType.HEARING
 
     @property
     def hp(self) -> int:
-        if self == EnemyTypes.BABOL:
-            return 10
+        match self:
+            case EnemyTypes.BABOL:
+                return 10
 
     @property
     def searchRadius(self) -> int:
-        if self == EnemyTypes.BABOL:
-            return 5
+        match self:
+            case EnemyTypes.BABOL:
+                return 5
 
     @property
     def name(self) -> str:
-        if self == EnemyTypes.BABOL:
-            return "Babol"
+        match self:
+            case EnemyTypes.BABOL:
+                return "Babol"
 
 
 class Enemy(AbstractNPC):
@@ -52,10 +57,10 @@ class Enemy(AbstractNPC):
         self.player = player
         self.name = type.name
 
-    def makeMove(self):
+    def make_move(self):
         if self.searchType == SearchType.HEARING:
-            if (self.position[0] + self.player.getPosition()[0]) ** 2 + (
-                self.position[1] + self.player.getPosition()[1]
+            if (self.position[0] + self.player.position[0]) ** 2 + (
+                self.position[1] + self.player.position[1]
             ) ** 2 <= self.searchRadius**2:
                 pass
                 # move yourself in the player direction
