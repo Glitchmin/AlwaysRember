@@ -1,7 +1,5 @@
 import time
 import pygame as pygame
-from pygame import mouse
-from pygame.surface import Surface
 
 from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
@@ -11,13 +9,13 @@ from Logic.TileSet import TileSet
 
 class Game:
     def __init__(
-        self,
-        screen: pygame.surface.Surface,
-        screen_width: int,
-        screen_height: int,
-        tile_size: int,
-        map_size: int,
-        font: pygame.font.Font,
+            self,
+            screen: pygame.surface.Surface,
+            screen_width: int,
+            screen_height: int,
+            tile_size: int,
+            map_size: int,
+            font: pygame.font.Font,
     ):
         self.screen = screen
         self.screen_width = screen_width
@@ -26,6 +24,10 @@ class Game:
         self.map_size = map_size
         self.font = font
         self.black_square = pygame.image.load(open("textures/square.png"))
+        self.DAYTIME_LENGTH = 10
+        self.NIGHT_LENGTH = 20
+        self.day_timer = self.DAYTIME_LENGTH
+        self.is_night = False
 
         self.running = True
         self.last_time = time.time()
@@ -58,6 +60,14 @@ class Game:
         # get elapsed time
         current_time = time.time()
         elapsed_time, self.last_time = current_time - self.last_time, current_time
+        self.day_timer -= elapsed_time
+        if self.day_timer < 0:
+            if self.is_night:
+                self.day_timer += self.DAYTIME_LENGTH
+            else:
+                self.day_timer += self.NIGHT_LENGTH
+            self.is_night = not self.is_night
+            self.camera.mode = self.camera.mode.toggle(self.camera.mode)
 
         self.tileset.update_times(elapsed_time)
 
@@ -73,10 +83,10 @@ class Game:
                 self.camera.y += self.camera.step_y
         else:
             self.camera.x = (self.player.position[0] * self.tile_size) - (
-                self.screen_width / 2
+                    self.screen_width / 2
             )
             self.camera.y = (self.player.position[1] * self.tile_size) - (
-                self.screen_height / 2
+                    self.screen_height / 2
             )
 
         for event in pygame.event.get():
@@ -84,19 +94,24 @@ class Game:
                 self.running = False
 
             if event.type == pygame.KEYDOWN:
-                match event.key:
-                    case pygame.K_LEFT:
-                        self.player.set_wanted_direction(Direction.LEFT)
-                    case pygame.K_RIGHT:
-                        self.player.set_wanted_direction(Direction.RIGHT)
-                    case pygame.K_UP:
-                        self.player.set_wanted_direction(Direction.UP)
-                    case pygame.K_DOWN:
-                        self.player.set_wanted_direction(Direction.DOWN)
-                    case pygame.K_c:
-                        self.camera.mode = CameraMode.toggle(self.camera.mode)
-                    case _:
-                        pass
+                if self.is_night:
+                    match event.key:
+                        case pygame.K_LEFT:
+                            self.player.set_wanted_direction(Direction.LEFT)
+                        case pygame.K_RIGHT:
+                            self.player.set_wanted_direction(Direction.RIGHT)
+                        case pygame.K_UP:
+                            self.player.set_wanted_direction(Direction.UP)
+                        case pygame.K_DOWN:
+                            self.player.set_wanted_direction(Direction.DOWN)
+                        case pygame.K_SPACE:
+                            if self.tileset.tiles[self.player.position[0]][self.player.position[1]].item is not None:
+                                self.player.backHand, self.tileset.tiles[self.player.position[0]][
+                                    self.player.position[1]].item = self.tileset.tiles[self.player.position[0]][
+                                                                        self.player.position[
+                                                                            1]].item, self.player.backHand
+                        case _:
+                            pass
             elif event.type == pygame.KEYUP:
                 match event.key:
                     case pygame.K_LEFT:
@@ -112,12 +127,13 @@ class Game:
         if self.player.wanted_direction is not None:
             self.tileset.move_npc(self.player.wanted_direction, self.player)
 
-        print(
-            f"player pos: {self.player.position}, camera pos: ({self.camera.x}, {self.camera.y})"
-        )
+        # print(
+        # f"player pos: {self.player.position}, camera pos: ({self.camera.x}, {self.camera.y})"
+        # )
 
         # move enemies
-        self.tileset.update()
+        if self.is_night:
+            self.tileset.update()
 
     def render(self):
         self.camera.clear()
@@ -132,22 +148,28 @@ class Game:
                 tile = self.tileset.tiles[i][j]
                 self.camera.render(tile.tileType.texture, i, j)
 
+                if tile.item:
+                    self.camera.render(tile.item.texture, i, j)
                 # apply night
-                self.black_square.set_alpha(255)
-                if not self.tileset.is_light(True, i, j, self.camera.x, self.camera.y):
-                    self.camera.render(self.black_square, i, j)
 
                 # draw any game objects that are in this tile
                 if tile.npc:
-                    self.camera.render(tile.npc.texture, i, j)
+                    if not type(tile.npc) == Player:
+                        self.camera.render(tile.npc.texture, i, j)
                     if type(tile.npc) == Player:
                         self.player.screenX = (
-                            self.camera.tilemap_size * (i + 0.5) - self.camera.x
+                                self.camera.tilemap_size * (i + 0.5) - self.camera.x
                         )
                         self.player.screenY = (
-                            self.camera.tilemap_size * (j + 0.5) - self.camera.y
+                                self.camera.tilemap_size * (j + 0.5) - self.camera.y
                         )
 
+                self.black_square.set_alpha(255)
+                if not self.tileset.is_light(self.is_night, i, j, self.camera.x, self.camera.y):
+                    self.camera.render(self.black_square, i, j)
+
+                if type(tile.npc) == Player and self.is_night:
+                    self.camera.render(tile.npc.texture, i, j)
                 # draw number of tile (for debugging)
                 text_surface = self.font.render(f"({i},{j})", False, (0, 0, 0))
                 self.camera.render(text_surface, i, j)

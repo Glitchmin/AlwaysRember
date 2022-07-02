@@ -44,3 +44,6 @@ class AbstractNPC:
             self.__time = 0
             return True
         return False
+
+    def getDamaged(self, damage: int):
+        self.__hp -= damage
