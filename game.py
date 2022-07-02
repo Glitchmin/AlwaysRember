@@ -126,4 +126,25 @@ class Game:
                 text_surface = self.font.render(f"({i},{j})", False, (0, 0, 0))
                 self.camera.render(text_surface, i, j)
 
+        # draw UI
+        self.draw_rect_with_border(
+            50,
+            self.screen_height - 100,
+            width=100,
+            height=50,
+        )
+        self.draw_rect_with_border(
+            self.screen_width - 100,
+            self.screen_height - 100,
+            width=100,
+            height=50,
+        )
+
         pygame.display.flip()
+
+    def draw_rect_with_border(self, x: int, y: int, width: int, height: int):
+        pygame.draw.rect(self.screen, (127, 127, 127), (x, y, width, height), 0)
+        for i in range(4):
+            pygame.draw.rect(
+                self.screen, (0, 0, 0), (x - i, y - i, width + 5, height + 5), 1
+            )
