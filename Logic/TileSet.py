@@ -105,16 +105,7 @@ class TileSet:
 
     @staticmethod
     def generate(size: int, player: Player, tile_size: int, base_x:int, base_y:int) -> "TileSet":
-        tileset = TileSet(size, size, player, tile_size, base_x, base_y)
-        # # add stones in some random locations
-        # for i in range(size):
-        #     for j in range(size):
-        #         if random.random() > 0.2:
-        #             continue
-
-        #         tileset[i][j] = Tile(TileType.STONE)
-
-        
+        tileset = TileSet(size, size, player, tile_size, base_x, base_y)        
 
         for i in range(len(TileSet.item_positions)):
             tileset.tiles[TileSet.item_positions[i][0]][

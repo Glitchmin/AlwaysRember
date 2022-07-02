@@ -58,17 +58,8 @@ class Game:
             for j in range(self.map_size):
                 pos = ((i * self.tile_size) + 32, (j * self.tile_size) + 32)
                 rgba_out = self.world_material.get_at(pos)
-                if rgba_out == (0, 0, 0, 0):
-                    self.tileset.tiles[i][j] = Tile(TileType.STONE)
-
-
-
-        for i in self.tileset.tiles:
-            for j in i:
-                print(j.tileType.walkable)
-
-            print()
-                
+                if rgba_out == (0, 0, 0, 255):
+                    self.tileset.tiles[i][j].tileType = TileType.STONE
 
 
         self.quests: QuestList = QuestList()
