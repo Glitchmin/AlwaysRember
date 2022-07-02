@@ -9,13 +9,13 @@ from Logic.TileSet import TileSet
 
 class Game:
     def __init__(
-        self,
-        screen: pygame.surface.Surface,
-        screen_width: int,
-        screen_height: int,
-        tile_size: int,
-        map_size: int,
-        font: pygame.font.Font,
+            self,
+            screen: pygame.surface.Surface,
+            screen_width: int,
+            screen_height: int,
+            tile_size: int,
+            map_size: int,
+            font: pygame.font.Font,
     ):
         self.screen = screen
         self.screen_width = screen_width
@@ -26,6 +26,7 @@ class Game:
 
         self.running = True
         self.last_time = time.time()
+        self.last_player_input = time.time()
         self.camera = Camera(screen, screen_width, screen_height, tile_size)
         self.player = Player(
             hp=100,
@@ -44,12 +45,13 @@ class Game:
 
     def run(self):
         while self.running:
+            self.update_input()
             self.update()
             self.render()
 
         pygame.quit()
 
-    def update(self):
+    def update_input(self):
         # get elapsed time
         current_time = time.time()
         elapsed_time, self.last_time = current_time - self.last_time, current_time
@@ -68,10 +70,10 @@ class Game:
                 self.camera.y += self.camera.step_y
         else:
             self.camera.x = (self.player.position[0] * self.tile_size) - (
-                self.screen_width / 2
+                    self.screen_width / 2
             )
             self.camera.y = (self.player.position[1] * self.tile_size) - (
-                self.screen_height / 2
+                    self.screen_height / 2
             )
 
         for event in pygame.event.get():
@@ -81,17 +83,31 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 match event.key:
                     case pygame.K_LEFT:
-                        self.tileset.move_npc(Direction.LEFT, self.player)
+                        self.player.set_wanted_direction(Direction.LEFT)
                     case pygame.K_RIGHT:
-                        self.tileset.move_npc(Direction.RIGHT, self.player)
+                        self.player.set_wanted_direction(Direction.RIGHT)
                     case pygame.K_UP:
-                        self.tileset.move_npc(Direction.UP, self.player)
+                        self.player.set_wanted_direction(Direction.UP)
                     case pygame.K_DOWN:
-                        self.tileset.move_npc(Direction.DOWN, self.player)
+                        self.player.set_wanted_direction(Direction.DOWN)
                     case pygame.K_c:
                         self.camera.mode = CameraMode.toggle(self.camera.mode)
                     case _:
                         pass
+            elif event.type == pygame.KEYUP:
+                match event.key:
+                    case pygame.K_LEFT:
+                        self.player.remove_direction(Direction.LEFT)
+                    case pygame.K_RIGHT:
+                        self.player.remove_direction(Direction.RIGHT)
+                    case pygame.K_UP:
+                        self.player.remove_direction(Direction.UP)
+                    case pygame.K_DOWN:
+                        self.player.remove_direction(Direction.DOWN)
+
+    def update(self):
+        if self.player.wanted_direction is not None:
+            self.tileset.move_npc(self.player.wanted_direction, self.player)
 
         print(
             f"player pos: {self.player.position}, camera pos: ({self.camera.x}, {self.camera.y})"

@@ -125,6 +125,7 @@ class TileSet(PositionObserver):
                 position[1] + val[1],
             )
             if (
+                self.inbounds(new_position) and \
                 self.dist_to_player[new_position[0]][new_position[1]]
                 < self.dist_to_player[position[0]][position[1]]
                 and self.dist_to_player[new_position[0]][new_position[1]] < best

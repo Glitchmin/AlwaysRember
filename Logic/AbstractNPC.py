@@ -41,6 +41,6 @@ class AbstractNPC:
 
     def can_move(self) -> bool:
         if self.__time >= self.__move_cooldown:
-            self.__time -= self.__move_cooldown
+            self.__time = 0
             return True
         return False
