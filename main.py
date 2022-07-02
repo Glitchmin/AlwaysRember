@@ -51,6 +51,9 @@ while running:
             camera_y -= camera_step_y
         elif key_pressed[pygame.K_s]:
             camera_y += camera_step_y
+    else:
+        camera_x = (player.position[0] * TILE_SIZE) - (SCREEN_WIDTH / 2)
+        camera_y = (player.position[1] * TILE_SIZE) - (SCREEN_HEIGHT / 2)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
