@@ -30,6 +30,13 @@ class Quest(AbstractItem):
         super().__init__(name, texture)
 
 
+torch = LightSource(
+    "torch",
+    pygame.image.load(open("resources/czaszka0.png")),
+    4.0,
+    90,
+)
+
 bone = Weapon(
     "Bone",
     pygame.image.load(open("resources/kosc0.png")),
@@ -56,4 +63,4 @@ quest_items = [sticks, rubber, pickaxe, metal_scraps, radio]
 # flashlight = (LightSource("Flashlight", radius=4, angle=60),)
 
 
-items = [bone, axe]
+items = [torch, bone, axe]

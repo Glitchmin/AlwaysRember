@@ -1,18 +1,24 @@
-import pygame
-from pygame.surface import Surface
 from Logic.Direction import Direction
 
 from Logic.AbstractNPC import AbstractNPC
-from Logic.Item import AbstractItem, LightSource, Weapon
+import Logic.Item as Items
 
-torch_texture = pygame.image.load(open("resources/czaszka0.png"))
+import pygame as pygame
+
 
 class Player(AbstractNPC):
-    def __init__(self, hp: int, x: int, y: int, move_cooldown: float, texture: Surface):
+    def __init__(
+        self,
+        hp: int,
+        x: int,
+        y: int,
+        move_cooldown: float,
+        texture: pygame.surface.Surface,
+    ):
         super().__init__(hp, x, y, move_cooldown, texture)
-        self.leftHand: LightSource | None = LightSource("torch", torch_texture, 4.0, 90)
-        self.rightHand: Weapon | None = None
-        self.backHand: AbstractItem | None = None
+        self.leftHand: Items.LightSource | None = Items.torch
+        self.rightHand: Items.Weapon | None = Items.axe
+        self.backHand: Items.AbstractItem | None = None
         self.screenX: int = 0
         self.screenY: int = 0
         self.wanted_direction: Direction | None = None

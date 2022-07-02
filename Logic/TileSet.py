@@ -38,7 +38,7 @@ class TileSet:
             enemy.update_time(elapsed_time)
 
     def is_light(
-            self, is_night: bool, x: int, y: int, camera_x: int, camera_y: int
+        self, is_night: bool, x: int, y: int, camera_x: int, camera_y: int
     ) -> bool:
         angle = 90.0
         if not self.player.screenX - mouse.get_pos()[0] == 0:
@@ -69,8 +69,8 @@ class TileSet:
             return True
         else:
             return (
-                           (self.player.position[0] - x) ** 2 + (self.player.position[1] - y) ** 2
-                   ) <= self.player.leftHand.radius ** 2 and min(
+                (self.player.position[0] - x) ** 2 + (self.player.position[1] - y) ** 2
+            ) <= self.player.leftHand.radius**2 and min(
                 360 - abs(angle_tile_player - angle), abs(angle_tile_player - angle)
             ) <= self.player.leftHand.angle
 
@@ -90,7 +90,7 @@ class TileSet:
             start_tile: Tile = self.tiles[npc.position[0]][npc.position[1]]
             final_tile: Tile = self.tiles[npc.position[0] + dir.value[0]][
                 npc.position[1] + dir.value[1]
-                ]
+            ]
             if final_tile.npc is None and final_tile.tileType.walkable:
                 final_tile.npc = npc
                 start_tile.npc = None
@@ -115,8 +115,12 @@ class TileSet:
                 tileset[i][j] = Tile(TileType.STONE)
 
         for i in range(len(TileSet.item_positions)):
-            tileset.tiles[TileSet.item_positions[i][0]][TileSet.item_positions[i][1]].item = Items.quest_items[i]
-            tileset.tiles[TileSet.item_positions[i][0]][TileSet.item_positions[i][1]].tileType = TileType.GROUND
+            tileset.tiles[TileSet.item_positions[i][0]][
+                TileSet.item_positions[i][1]
+            ].item = Items.quest_items[i]
+            tileset.tiles[TileSet.item_positions[i][0]][
+                TileSet.item_positions[i][1]
+            ].tileType = TileType.GROUND
         tileset.add_enemy(Enemy(2, 2, 1, 8, EnemyTypes.BABOL, player))
         tileset.add_enemy(Enemy(20, 20, 1, 10, EnemyTypes.BABOL_SMELL, player))
 
@@ -136,9 +140,9 @@ class TileSet:
 
     def walkable(self, position: tuple[int, int]):
         return (
-                self.inbounds(position)
-                and self.tiles[position[0]][position[1]].tileType.walkable
-                and self.tiles[position[0]][position[1]].npc is None
+            self.inbounds(position)
+            and self.tiles[position[0]][position[1]].tileType.walkable
+            and self.tiles[position[0]][position[1]].npc is None
         )
 
     def update_path(self):
@@ -157,12 +161,12 @@ class TileSet:
                     position[1] + val[1],
                 )
                 if (
-                        self.walkable(new_position)
-                        and self.dist_to_player[new_position[0]][new_position[1]]
-                        > self.dist_to_player[position[0]][position[1]] + 1
+                    self.walkable(new_position)
+                    and self.dist_to_player[new_position[0]][new_position[1]]
+                    > self.dist_to_player[position[0]][position[1]] + 1
                 ):
                     self.dist_to_player[new_position[0]][new_position[1]] = (
-                            self.dist_to_player[position[0]][position[1]] + 1
+                        self.dist_to_player[position[0]][position[1]] + 1
                     )
                     q.put(new_position)
 
@@ -176,10 +180,10 @@ class TileSet:
                 position[1] + val[1],
             )
             if (
-                    self.inbounds(new_position)
-                    and self.dist_to_player[new_position[0]][new_position[1]]
-                    < self.dist_to_player[position[0]][position[1]]
-                    and self.dist_to_player[new_position[0]][new_position[1]] < best
+                self.inbounds(new_position)
+                and self.dist_to_player[new_position[0]][new_position[1]]
+                < self.dist_to_player[position[0]][position[1]]
+                and self.dist_to_player[new_position[0]][new_position[1]] < best
             ):
                 best = self.dist_to_player[new_position[0]][new_position[1]]
                 result = direction

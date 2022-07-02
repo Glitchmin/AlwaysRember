@@ -1,4 +1,3 @@
-from pygame.surface import Surface
 from Logic.Direction import Direction
 
 import pygame as pygame
@@ -29,7 +28,7 @@ class AbstractNPC:
         return self.__x, self.__y
 
     @property
-    def texture(self) -> Surface:
+    def texture(self) -> pygame.surface.Surface:
         return self.__texture
 
     def move(self, dir: Direction):

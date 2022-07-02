@@ -197,7 +197,9 @@ class Game:
         )
 
         if self.player.leftHand:
-            self.screen.blit(self.player.leftHand.texture, (75, self.screen_height - 100))
+            self.screen.blit(
+                self.player.leftHand.texture, (80, self.screen_height - 95)
+            )
 
         self.draw_rect_with_border(
             self.screen_width - 150,
@@ -205,6 +207,12 @@ class Game:
             width=75,
             height=75,
         )
+
+        if self.player.rightHand:
+            self.screen.blit(
+                self.player.rightHand.texture,
+                (self.screen_width - 140, self.screen_height - 95),
+            )
 
         hp_text = self.font.render(f"hp: {self.player.hp}", False, (0, 255, 0))
         self.screen.blit(hp_text, (25, 25))
