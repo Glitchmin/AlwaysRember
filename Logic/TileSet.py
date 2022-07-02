@@ -74,11 +74,11 @@ class TileSet:
 
     def update(self):
         for enemy in self.enemies:
-            self.move_npc(self.get_direction_to_player(enemy.position), enemy)
+            if enemy.detects(self):
+                self.move_npc(self.get_direction_to_player(enemy.position), enemy)
         if self.__position_changed:
             self.update_path()
             self.__position_changed = False
-
 
     def move_npc(self, dir: Direction, npc: AbstractNPC):
         if npc.can_move():
@@ -110,9 +110,10 @@ class TileSet:
 
                 tileset[i][j] = Tile(TileType.STONE)
 
-        tileset.add_enemy(Enemy(2, 2, 0.5, EnemyTypes.BABOL, player))
         tileset.tiles[5][5].item = Items.sticks
         tileset.tiles[5][5].tileType = TileType.GROUND
+        tileset.add_enemy(Enemy(2, 2, 1, EnemyTypes.BABOL, player))
+        tileset.add_enemy(Enemy(20, 20, 1, EnemyTypes.BABOL_SMELL, player))
 
         for i in range(size):
             for j in range(size):
