@@ -18,7 +18,7 @@ import random
 class TileSet:
     item_positions = [(5, 5), (0, 5), (30, 30), (30, 2), (2, 30)]
 
-    def __init__(self, width: int, height: int, player: Player, tile_size: int):
+    def __init__(self, width: int, height: int, player: Player, tile_size: int, base_x:int, base_y: int):
         self.width: int = width
         self.height: int = height
         self.player = player
@@ -26,6 +26,7 @@ class TileSet:
         self.tiles: list[list[Tile]] = [
             [Tile(TileType.GROUND) for _ in range(height)] for _ in range(width)
         ]
+        self.base = (base_x, base_y)
         self.enemies: list[Enemy] = []
         self.dist_to_player: list[list[int]] = [
             [1_000_000_000 for _ in range(height)] for _ in range(width)
@@ -83,6 +84,13 @@ class TileSet:
         if self.__position_changed:
             self.update_path()
             self.__position_changed = False
+        if self.player.position == self.base and self.player.backHand is not None:
+            print(Items.quest_items, self.player.backHand)
+            Items.quest_items.remove(self.player.backHand)
+            self.player.backHand = None
+            print("item dropped")
+            if not Items.quest_items:
+                print("Victory!")
 
     def move_npc(self, dir: Direction, npc: AbstractNPC):
         if npc.can_move():
@@ -104,8 +112,8 @@ class TileSet:
         self[enemy.position[0]][enemy.position[1]].npc = enemy
 
     @staticmethod
-    def generate(size: int, player: Player, tile_size: int) -> "TileSet":
-        tileset = TileSet(size, size, player, tile_size)
+    def generate(size: int, player: Player, tile_size: int, base_x:int, base_y:int) -> "TileSet":
+        tileset = TileSet(size, size, player, tile_size, base_x, base_y)
         # add stones in some random locations
         for i in range(size):
             for j in range(size):

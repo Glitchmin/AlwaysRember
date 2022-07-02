@@ -41,7 +41,7 @@ class Game:
             texture=pygame.image.load(open("textures/player.png")),
         )
 
-        self.tileset = TileSet.generate(map_size, self.player, tile_size)
+        self.tileset = TileSet.generate(map_size, self.player, tile_size, map_size//2, map_size-1)
         self.tileset.tiles[self.player.position[0]][
             self.player.position[1]
         ].npc = self.player
