@@ -86,6 +86,8 @@ class Game:
                 self.camera.y -= self.camera.step_y
             elif key_pressed[pygame.K_s]:
                 self.camera.y += self.camera.step_y
+            elif key_pressed[pygame.K_n]:
+                self.is_night = True
         else:
             self.camera.x = (self.player.position[0] * self.tile_size) - (
                 self.screen_width / 2
