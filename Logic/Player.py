@@ -45,7 +45,7 @@ class Player(AbstractNPC):
             move_cooldown,
             pygame.image.load(open("textures/player.png")),
         )
-        self.leftHand: Items.LightSource | None = Items.torch
+        self.leftHand: Items.LightSource | None = Items.flashlight
         self.rightHand: Items.Weapon | None = Items.axe
         self.backHand: Items.AbstractItem | None = None
         self.screenX: int = 0
