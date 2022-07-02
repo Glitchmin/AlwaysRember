@@ -66,9 +66,16 @@ class EnemyTypes(Enum):
             case EnemyTypes.BABOL_SMELL:
                 return 10
 
+
 class Enemy(AbstractNPC):
     def __init__(
-        self, x: int, y: int, move_cooldown: float, damage: int, type: EnemyTypes, player: Player
+        self,
+        x: int,
+        y: int,
+        move_cooldown: float,
+        damage: int,
+        type: EnemyTypes,
+        player: Player,
     ):
         super().__init__(type.hp, x, y, move_cooldown, type.texture)
         self.searchRadius = type.searchRadius
@@ -84,8 +91,14 @@ class Enemy(AbstractNPC):
             ) ** 2 <= self.searchRadius**2
         elif self.searchType == SearchType.SMELL:
             direction = tileSet.get_direction_to_player(self.position).value
-            new_position = (self.position[0] + direction[0], self.position[1] + direction[1])
-            return tileSet.dist_to_player[new_position[0]][new_position[1]] < self.searchRadius
+            new_position = (
+                self.position[0] + direction[0],
+                self.position[1] + direction[1],
+            )
+            return (
+                tileSet.dist_to_player[new_position[0]][new_position[1]]
+                < self.searchRadius
+            )
 
     def attack(self):
         if self.can_move():
