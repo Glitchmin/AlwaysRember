@@ -31,7 +31,7 @@ tileset = TileSet.generate(TILEMAP_SIZE, player)
 tileset.tiles[player.position[0]][player.position[1]].npc = player
 tileset.update_path()
 
-while running:
+def act():
     key_pressed = pygame.key.get_pressed()
     if camera.mode == CameraMode.Free:
         if key_pressed[pygame.K_a]:
@@ -73,6 +73,7 @@ while running:
 
     tileset.move_enemies()
 
+def render():
     camera.clear()
 
     pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
@@ -94,5 +95,10 @@ while running:
             camera.render(text_surface, i, j)
 
     pygame.display.flip()
+
+while running:
+    act()
+    render()
+    
 
 pygame.quit()

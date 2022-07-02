@@ -35,13 +35,10 @@ class Camera:
         self.step_x = (screen_width // tilemap_size) / 4
         self.step_y = (screen_height // tilemap_size) / 4
 
-<<<<<<< HEAD
-=======
     def clear(self):
         self.screen.fill((255, 255, 255))
 
 
->>>>>>> 56651e9bcaaa439571f7c3da4c2d875c0f0f02b8
     def render(self, texture: pygame.Surface, x: int, y: int):
         dest = ((self.tilemap_size * x) - self.x, (self.tilemap_size * y) - self.y)
         self.screen.blit(texture, dest)
