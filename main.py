@@ -1,8 +1,5 @@
 import pygame
 from Logic.Camera import Camera, CameraMode
-from pygame.color import Color
-
-from Logic.Camera import CameraMode
 from Logic.Player import Player
 from Logic.Direction import Direction
 
@@ -20,7 +17,6 @@ default_font = pygame.font.SysFont("Comic Sans MS", 15)
 pygame.display.set_caption("AlwaysRember")
 
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
-light = pygame.image.load('textures/square.png')
 
 running = True
 
@@ -29,21 +25,21 @@ player_y = TILEMAP_SIZE // 2
 
 camera = Camera(screen, SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE)
 
-camera_x = SCREEN_WIDTH // 2 + (SCREEN_WIDTH / 2)
-camera_y = SCREEN_HEIGHT // 2 + (SCREEN_HEIGHT / 2)
-camera_step_x = (SCREEN_WIDTH // TILEMAP_SIZE) / 4
-camera_step_y = (SCREEN_HEIGHT // TILEMAP_SIZE) / 4
-
-camera_mode = CameraMode.Free
-
-player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
+player = Player(100, player_x, player_y, 0.5, pygame.image.load(open("textures/player.png")))
 
 tileset = TileSet.generate(TILEMAP_SIZE, player)
 tileset.tiles[player.position[0]][player.position[1]].npc = player
 tileset.update_path()
 
+def update():
+    global running
+    global last_time
+    # get elapsed time
+    current_time = time.time()
+    time_elapsed, last_time = current_time - last_time, current_time
 
-def act():
+    tileset.update_times(time_elapsed)
+
     key_pressed = pygame.key.get_pressed()
     if camera.mode == CameraMode.Free:
         if key_pressed[pygame.K_a]:
@@ -85,10 +81,8 @@ def act():
 
     tileset.move_enemies()
 
-
 def render():
     camera.clear()
-    screen.fill((255, 255, 255))
 
     pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
 
@@ -100,10 +94,6 @@ def render():
             tile = tileset.tiles[i][j]
             camera.render(tile.tileType.texture, i, j)
 
-            light.set_alpha(196)
-            camera.render(light, i, j)
-
-
             # draw any game objects that are in this tile
             if tile.npc:
                 camera.render(tile.npc.texture, i, j)
@@ -114,9 +104,9 @@ def render():
 
     pygame.display.flip()
 
-
 while running:
-    act()
+    update()
     render()
+    
 
 pygame.quit()
