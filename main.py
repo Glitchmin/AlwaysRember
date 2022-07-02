@@ -1,4 +1,5 @@
 import pygame
+from Logic.Camera import CameraMode
 from Logic.Player import Player
 from Logic.Direction import Direction
 
@@ -19,8 +20,6 @@ screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 running = True
 
-# TODO: create some init method
-
 player_x = TILEMAP_SIZE // 2
 player_y = TILEMAP_SIZE // 2
 
@@ -28,6 +27,10 @@ camera_x = SCREEN_WIDTH // 2 + (SCREEN_WIDTH / 2)
 camera_y = SCREEN_HEIGHT // 2 + (SCREEN_HEIGHT / 2)
 camera_step_x = (SCREEN_WIDTH // TILEMAP_SIZE) / 4
 camera_step_y = (SCREEN_HEIGHT // TILEMAP_SIZE) / 4
+
+
+camera_mode = CameraMode.Free
+
 
 player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
 
@@ -37,14 +40,18 @@ tileset.update_path()
 
 while running:
     key_pressed = pygame.key.get_pressed()
-    if key_pressed[pygame.K_a]:
-        camera_x -= camera_step_x
-    elif key_pressed[pygame.K_d]:
-        camera_x += camera_step_x
-    if key_pressed[pygame.K_w]:
-        camera_y -= camera_step_y
-    elif key_pressed[pygame.K_s]:
-        camera_y += camera_step_y
+    if camera_mode == CameraMode.Free:
+        if key_pressed[pygame.K_a]:
+            camera_x -= camera_step_x
+        elif key_pressed[pygame.K_d]:
+            camera_x += camera_step_x
+        if key_pressed[pygame.K_w]:
+            camera_y -= camera_step_y
+        elif key_pressed[pygame.K_s]:
+            camera_y += camera_step_y
+    else:
+        camera_x = (player.position[0] * TILE_SIZE) - (SCREEN_WIDTH / 2)
+        camera_y = (player.position[1] * TILE_SIZE) - (SCREEN_HEIGHT / 2)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -64,6 +71,8 @@ while running:
                 case pygame.K_DOWN:
                     tileset.move_npc(Direction.DOWN, player)
                     tileset.update_path()
+                case pygame.K_c:
+                    camera_mode = CameraMode.toggle(camera_mode)
                 case _:
                     pass
 
