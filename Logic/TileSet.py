@@ -35,7 +35,9 @@ class TileSet:
         for enemy in self.enemies:
             enemy.update_time(elapsed_time)
 
-    def is_light(self, is_night: bool, x, y, camera_x, camera_y):
+    def is_light(
+        self, is_night: bool, x: int, y: int, camera_x: int, camera_y: int
+    ) -> bool:
         angle = 90.0
         if not self.player.screenX - mouse.get_pos()[0] == 0:
             angle = math.atan(
