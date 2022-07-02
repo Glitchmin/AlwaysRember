@@ -7,11 +7,13 @@ from Logic.Item import AbstractItem
 
 ground_texture = pygame.image.load(open("textures/ground.png"))
 stone_texture = pygame.image.load(open("textures/stone.png"))
+base_texture = pygame.image.load(open("resources/czaszka1.png"))
 
 
 class TileType(Enum):
     GROUND = 0
     STONE = 1
+    BASE = 2
 
     @property
     def texture(self) -> pygame.surface.Surface:
@@ -20,7 +22,8 @@ class TileType(Enum):
                 return ground_texture
             case TileType.STONE:
                 return stone_texture
-
+            case TileType.BASE:
+                return base_texture
     @property
     def walkable(self) -> bool:
         match self:
@@ -28,6 +31,8 @@ class TileType(Enum):
                 return True
             case TileType.STONE:
                 return False
+            case TileType.BASE:
+                return True
 
 
 class Tile:
@@ -50,4 +55,4 @@ class Tile:
 
     @tileType.setter
     def tileType(self, value):
-        self._tileType = value
+        self.__tileType = value

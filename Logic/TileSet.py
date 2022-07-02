@@ -85,10 +85,8 @@ class TileSet:
             self.update_path()
             self.__position_changed = False
         if self.player.position == self.base and self.player.backHand is not None:
-            print(Items.quest_items, self.player.backHand)
             Items.quest_items.remove(self.player.backHand)
             self.player.backHand = None
-            print("item dropped")
             if not Items.quest_items:
                 print("Victory!")
 
@@ -136,7 +134,7 @@ class TileSet:
                 tile = tileset.tiles[i][j]
                 if tile.tileType == TileType.GROUND:
                     tileset[i][j].item = Items.axe
-
+        tileset[base_x][base_y].tileType = TileType.BASE
         return tileset
 
     def inbounds(self, position: tuple[int, int]):
