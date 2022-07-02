@@ -20,8 +20,6 @@ screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 running = True
 
-# TODO: create some init method
-
 player_x = TILEMAP_SIZE // 2
 player_y = TILEMAP_SIZE // 2
 
