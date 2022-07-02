@@ -1,4 +1,5 @@
 import pygame
+import time
 from Logic.Camera import Camera, CameraMode
 from Logic.Player import Player
 from Logic.Direction import Direction
@@ -19,19 +20,28 @@ pygame.display.set_caption("AlwaysRember")
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 running = True
+last_time = time.time()
 
 player_x = TILEMAP_SIZE // 2
 player_y = TILEMAP_SIZE // 2
 
 camera = Camera(screen, SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE)
 
-player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
+player = Player(100, player_x, player_y, 0.5, pygame.image.load(open("textures/player.png")))
 
 tileset = TileSet.generate(TILEMAP_SIZE, player)
 tileset.tiles[player.position[0]][player.position[1]].npc = player
 tileset.update_path()
 
-def act():
+def update():
+    global running
+    global last_time
+    # get elapsed time
+    current_time = time.time()
+    time_elapsed, last_time = current_time - last_time, current_time
+
+    tileset.update_times(time_elapsed)
+
     key_pressed = pygame.key.get_pressed()
     if camera.mode == CameraMode.Free:
         if key_pressed[pygame.K_a]:
@@ -50,6 +60,7 @@ def act():
         if event.type == pygame.QUIT:
             running = False
 
+        # TODO: player move observer (to update path)
         if event.type == pygame.KEYDOWN:
             match event.key:
                 case pygame.K_LEFT:
@@ -71,6 +82,8 @@ def act():
 
         print(f"player pos: {player.position}, camera pos: ({camera.x}, {camera.y})")
 
+
+    # move enemies
     tileset.move_enemies()
 
 def render():
@@ -97,8 +110,8 @@ def render():
     pygame.display.flip()
 
 while running:
-    act()
+    update()
     render()
-    
+
 
 pygame.quit()

@@ -50,8 +50,8 @@ class EnemyTypes(Enum):
 
 
 class Enemy(AbstractNPC):
-    def __init__(self, x: int, y: int, type: EnemyTypes, player: Player):
-        super().__init__(type.hp, x, y, type.texture)
+    def __init__(self, x: int, y: int, move_cooldown: float, type: EnemyTypes, player: Player):
+        super().__init__(type.hp, x, y, move_cooldown, type.texture)
         self.searchRadius = type.searchRadius
         self.searchType = type.searchType
         self.player = player

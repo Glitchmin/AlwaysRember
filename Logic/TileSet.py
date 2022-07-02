@@ -21,19 +21,25 @@ class TileSet:
             [1_000_000_000 for _ in range(height)] for _ in range(width)
         ]
 
+    def update_times(self, time_elapsed: float):
+        self.player.update_time(time_elapsed)
+        for enemy in self.enemies:
+            enemy.update_time(time_elapsed)
+
     def move_enemies(self):
         for enemy in self.enemies:
             self.move_npc(self.get_direction_to_player(enemy.position), enemy)
 
     def move_npc(self, dir: Direction, npc: AbstractNPC):
-        start_tile: Tile = self.tiles[npc.position[0]][npc.position[1]]
-        final_tile: Tile = self.tiles[npc.position[0] + dir.value[0]][
-            npc.position[1] + dir.value[1]
-        ]
-        if final_tile.npc is None and final_tile.tileType.walkable:
-            final_tile.npc = npc
-            start_tile.npc = None
-            npc.move(dir)
+        if npc.can_move():
+            start_tile: Tile = self.tiles[npc.position[0]][npc.position[1]]
+            final_tile: Tile = self.tiles[npc.position[0] + dir.value[0]][
+                npc.position[1] + dir.value[1]
+            ]
+            if final_tile.npc is None and final_tile.tileType.walkable:
+                final_tile.npc = npc
+                start_tile.npc = None
+                npc.move(dir)
 
     def get_tile(self, x: int, y: int):
         return self.tiles[x][y]
@@ -52,7 +58,7 @@ class TileSet:
                     continue
 
                 tileset.tiles[i][j] = Tile(TileType.STONE)
-        tileset.add_enemy(Enemy(2, 2, EnemyTypes.BABOL, player))
+        tileset.add_enemy(Enemy(2, 2, 0.5, EnemyTypes.BABOL, player))
         return tileset
 
     def inbounds(self, position: tuple[int, int]):
