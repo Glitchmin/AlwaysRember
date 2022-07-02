@@ -21,6 +21,10 @@ class TileSet:
             [1_000_000_000 for _ in range(height)] for _ in range(width)
         ]
 
+    def move_enemies(self):
+        for enemy in self.enemies:
+            self.move_npc(self.get_direction_to_player(enemy.position), enemy)
+
     def move_npc(self, dir: Direction, npc: AbstractNPC):
         start_tile: Tile = self.tiles[npc.position[0]][npc.position[1]]
         final_tile: Tile = self.tiles[npc.position[0] + dir.value[0]][
@@ -36,7 +40,7 @@ class TileSet:
 
     def addEnemy(self, enemy: Enemy):
         self.enemies.append(enemy)
-        self.tiles[2][2].npc = enemy
+        self.tiles[enemy.position[0]][enemy.position[1]].npc = enemy
 
     @staticmethod
     def generate(size: int, player: Player) -> "TileSet":
