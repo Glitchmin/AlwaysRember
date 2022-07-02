@@ -91,6 +91,8 @@ class TileSet:
                     q.put(new_position)
 
     def get_direction_to_player(self, position: tuple[int, int]) -> Direction:
+        result: Direction = Direction.LEFT
+        best: int = 1_000_000_000
         for direction in Direction:
             val = direction.value
             new_position: tuple[int, int] = (
@@ -99,10 +101,12 @@ class TileSet:
             )
             if (
                 self.dist_to_player[new_position[0]][new_position[1]]
-                < self.dist_to_player[position[0]][position[1]]
+                < self.dist_to_player[position[0]][position[1]] and \
+                    self.dist_to_player[new_position[0]][new_position[1]] < best
             ):
-                return direction
+                best = self.dist_to_player[new_position[0]][new_position[1]]
+                result = direction
 
         # TODO: return random direction
 
-        return Direction.LEFT
+        return result
