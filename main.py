@@ -1,3 +1,5 @@
+import time
+
 import pygame
 from Logic.Camera import Camera, CameraMode
 from Logic.Player import Player
@@ -19,6 +21,7 @@ pygame.display.set_caption("AlwaysRember")
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 running = True
+last_time = time.time()
 
 player_x = TILEMAP_SIZE // 2
 player_y = TILEMAP_SIZE // 2
