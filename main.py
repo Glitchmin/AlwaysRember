@@ -34,6 +34,7 @@ tileset.tiles[player.position[0]][player.position[1]].npc = player
 tileset.update_path()
 
 def update():
+    global running
     global last_time
     # get elapsed time
     current_time = time.time()
@@ -42,18 +43,18 @@ def update():
     tileset.update_times(time_elapsed)
 
     key_pressed = pygame.key.get_pressed()
-    if camera_mode == CameraMode.Free:
+    if camera.mode == CameraMode.Free:
         if key_pressed[pygame.K_a]:
-            camera_x -= camera_step_x
+            camera.x -= camera.step_x
         elif key_pressed[pygame.K_d]:
-            camera_x += camera_step_x
+            camera.x += camera.step_x
         if key_pressed[pygame.K_w]:
-            camera_y -= camera_step_y
+            camera.y -= camera.step_y
         elif key_pressed[pygame.K_s]:
-            camera_y += camera_step_y
+            camera.y += camera.step_y
     else:
-        camera_x = (player.position[0] * TILE_SIZE) - (SCREEN_WIDTH / 2)
-        camera_y = (player.position[1] * TILE_SIZE) - (SCREEN_HEIGHT / 2)
+        camera.x = (player.position[0] * TILE_SIZE) - (SCREEN_WIDTH / 2)
+        camera.y = (player.position[1] * TILE_SIZE) - (SCREEN_HEIGHT / 2)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -75,11 +76,11 @@ def update():
                     tileset.move_npc(Direction.DOWN, player)
                     tileset.update_path()
                 case pygame.K_c:
-                    camera_mode = CameraMode.toggle(camera_mode)
+                    camera.mode = CameraMode.toggle(camera.mode)
                 case _:
                     pass
 
-        print(f"player pos: {player.position}, camera pos: ({camera_x}, {camera_y})")
+        print(f"player pos: {player.position}, camera pos: ({camera.x}, {camera.y})")
 
 
     # move enemies

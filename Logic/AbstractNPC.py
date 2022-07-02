@@ -28,3 +28,12 @@ class AbstractNPC:
     def move(self, dir: Direction):
         self.__x += dir.value[0]
         self.__y += dir.value[1]
+
+    def update_time(self, time_elapsed: float):
+        self.__time += time_elapsed
+
+    def can_move(self)->bool:
+        if self.__time >= self.__move_cooldown:
+            self.__time -= self.__move_cooldown
+            return True
+        return False
