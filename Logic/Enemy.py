@@ -4,6 +4,7 @@ import pygame as pygame
 
 from Logic.Player import Player
 from Logic.AbstractNPC import AbstractNPC
+from Logic.TileSet import TileSet
 from helpers import load_texture
 
 class SearchType(Enum):
@@ -16,7 +17,7 @@ class EnemyTypes(Enum):
     BABOL = 0
     BABOL_SMELL = 1
 
-    def __init__(self, num: int):
+    def __init__(self, _: int):
         self.babol_texture = load_texture("enemy.png")
 
     @property

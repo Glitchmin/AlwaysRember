@@ -1,5 +1,5 @@
 import pygame
-from game import Game
+from Game import Game
 
 SCREEN_WIDTH = 720  # px
 SCREEN_HEIGHT = 720  # px

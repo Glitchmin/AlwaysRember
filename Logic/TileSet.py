@@ -10,7 +10,7 @@ from Logic.Player import Player
 from Logic.Tile import TileType
 from Logic.Tile import Tile
 
-import queue
+from queue import Queue
 import random
 
 
@@ -138,7 +138,7 @@ class TileSet:
         )
 
     def update_path(self):
-        q = queue.Queue()
+        q: Queue[tuple[int, int]] = Queue()
         q.put(self.player.position)
         self.dist_to_player: list[list[int]] = [
             [float("inf") for _ in range(self.height)] for _ in range(self.width)

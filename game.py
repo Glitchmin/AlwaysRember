@@ -238,12 +238,8 @@ class Game:
                     if not type(tile.npc) == Player:
                         self.camera.render(tile.npc.texture, i, j)
                     if type(tile.npc) == Player:
-                        self.player.screen_x = (
-                            self.camera.tilemap_size * (i + 0.5) - self.camera.x
-                        )
-                        self.player.screen_y = (
-                            self.camera.tilemap_size * (j + 0.5) - self.camera.y
-                        )
+                        self.player.screen_x = ((self.camera.tilemap_size * i) + self.camera.tilemap_size // 2 - self.camera.x)
+                        self.player.screen_y = ((self.camera.tilemap_size * j) + self.camera.tilemap_size // 2 - self.camera.y)
 
                 self.black_square.set_alpha(255)
                 if not self.tileset.is_light(
