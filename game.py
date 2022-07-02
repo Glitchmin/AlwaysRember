@@ -202,8 +202,8 @@ class Game:
             height=50,
         )
 
-        text_surface = self.font.render(f"hp: {self.player.hp}", False, (0, 0, 0))
-        self.camera.render(text_surface, 30, 30)
+        hp_text = self.font.render(f"hp: {self.player.hp}", False, (0, 255, 0))
+        self.screen.blit(hp_text, (25, 25))
 
         pygame.display.flip()
 
