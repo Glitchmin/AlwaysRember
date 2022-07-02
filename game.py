@@ -5,6 +5,10 @@ from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
 from Logic.Player import Player
 from Logic.TileSet import TileSet
+from Logic.QuestList import QuestList
+import Logic.Item as Items
+
+
 
 
 class Game:
@@ -46,6 +50,8 @@ class Game:
             self.player.position[1]
         ].npc = self.player
         self.tileset.update_path()
+
+        self.quests: QuestList = QuestList()
         pass
 
     def run(self):
@@ -146,6 +152,14 @@ class Game:
         # move enemies
         if self.is_night:
             self.tileset.update()
+
+        if self.player.position == self.tileset.base and self.player.backHand is not None:
+            print(Items.quest_items, self.player.backHand)
+            self.quests.deliver(self.player.backHand)
+            self.player.backHand = None
+            print("item dropped")
+            if self.quests.done():
+                print("Victory!")
 
     def render(self):
         self.camera.clear()
