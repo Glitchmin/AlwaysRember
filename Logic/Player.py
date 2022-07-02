@@ -13,9 +13,14 @@ class Player(AbstractNPC):
         x: int,
         y: int,
         move_cooldown: float,
-        texture: pygame.surface.Surface,
     ):
-        super().__init__(hp, x, y, move_cooldown, texture)
+        super().__init__(
+            hp,
+            x,
+            y,
+            move_cooldown,
+            pygame.image.load(open("textures/player.png")),
+        )
         self.leftHand: Items.LightSource | None = Items.torch
         self.rightHand: Items.Weapon | None = Items.axe
         self.backHand: Items.AbstractItem | None = None

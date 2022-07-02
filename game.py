@@ -38,7 +38,6 @@ class Game:
             x=map_size // 2,
             y=map_size // 2,
             move_cooldown=0.5,
-            texture=pygame.image.load(open("textures/player.png")),
         )
 
         self.tileset = TileSet.generate(map_size, self.player, tile_size)
@@ -134,6 +133,8 @@ class Game:
                         self.player.remove_direction(Direction.UP)
                     case pygame.K_DOWN:
                         self.player.remove_direction(Direction.DOWN)
+                    case _:
+                        pass
 
     def update(self):
         if self.player.wanted_direction is not None:
