@@ -16,11 +16,14 @@ class SearchType(Enum):
 
 class EnemyTypes(Enum):
     BABOL = 0
+    BABOL_SMELL = 1
 
     @property
     def texture(self) -> pygame.surface.Surface:
         match self:
             case EnemyTypes.BABOL:
+                return babol_texture
+            case EnemyTypes.BABOL_SMELL:
                 return babol_texture
 
     @property
@@ -28,11 +31,15 @@ class EnemyTypes(Enum):
         match self:
             case EnemyTypes.BABOL:
                 return SearchType.HEARING
+            case EnemyTypes.BABOL_SMELL:
+                return SearchType.SMELL
 
     @property
     def hp(self) -> int:
         match self:
             case EnemyTypes.BABOL:
+                return 10
+            case EnemyTypes.BABOL_SMELL:
                 return 10
 
     @property
@@ -40,13 +47,16 @@ class EnemyTypes(Enum):
         match self:
             case EnemyTypes.BABOL:
                 return 5
+            case EnemyTypes.BABOL_SMELL:
+                return 8
 
     @property
     def name(self) -> str:
         match self:
             case EnemyTypes.BABOL:
                 return "Babol"
-
+            case EnemyTypes.BABOL_SMELL:
+                return "Smelly Babol"
 
 class Enemy(AbstractNPC):
     def __init__(
@@ -58,10 +68,12 @@ class Enemy(AbstractNPC):
         self.player = player
         self.name = type.name
 
-    def make_move(self):
+    def detects(self, tileSet):
         if self.searchType == SearchType.HEARING:
-            if (self.position[0] + self.player.position[0]) ** 2 + (
-                self.position[1] + self.player.position[1]
-            ) ** 2 <= self.searchRadius**2:
-                pass
-                # move yourself in the player direction
+            return (self.position[0] - self.player.position[0]) ** 2 + (
+                self.position[1] - self.player.position[1]
+            ) ** 2 <= self.searchRadius**2
+        elif self.searchType == SearchType.SMELL:
+            direction = tileSet.get_direction_to_player(self.position).value
+            new_position = (self.position[0] + direction[0], self.position[1] + direction[1])
+            return tileSet.dist_to_player[new_position[0]][new_position[1]] < self.searchRadius
