@@ -32,7 +32,7 @@ class Game:
         self.black_square = load_texture("square.png")
         self.DAYTIME_LENGTH = 30 # seconds
         self.NIGHT_LENGTH = 60 # seconds
-        self.day_timer = -self.DAYTIME_LENGTH
+        self.day_timer = -self.NIGHT_LENGTH
         self.is_night = False
 
         self.running = True
