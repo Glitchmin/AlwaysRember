@@ -5,6 +5,7 @@ from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
 from Logic.Player import Player
 from Logic.TileSet import TileSet
+import Logic.Item as Items
 
 
 class Game:
@@ -215,8 +216,14 @@ class Game:
                 (self.screen_width - 140, self.screen_height - 95),
             )
 
-        hp_text = self.font.render(f"hp: {self.player.hp}", False, (0, 255, 0))
+        hp_color = (0, 255, 0) if self.player.hp > 30 else (255, 0, 0)
+        hp_text = self.font.render(f"hp: {self.player.hp}", False, hp_color)
         self.screen.blit(hp_text, (25, 25))
+
+        items_text = self.font.render(
+            f"items: {len(Items.quest_items)}", False, (255, 255, 255)
+        )
+        self.screen.blit(items_text, (100, 25))
 
         pygame.display.flip()
 

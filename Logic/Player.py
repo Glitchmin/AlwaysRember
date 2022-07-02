@@ -8,23 +8,23 @@ import pygame as pygame
 from helpers import load_resource
 
 up_textures = [
-    load_resource('player/up0.png'),
-    load_resource('player/up1.png'),
+    load_resource("player/up0.png"),
+    load_resource("player/up1.png"),
 ]
 
 right_textures = [
-    load_resource('player/right0.png'),
-    load_resource('player/right1.png'),
+    load_resource("player/right0.png"),
+    load_resource("player/right1.png"),
 ]
 
 down_textures = [
-    load_resource('player/down0.png'),
-    load_resource('player/down1.png'),
+    load_resource("player/down0.png"),
+    load_resource("player/down1.png"),
 ]
 
 left_textures = [
-    load_resource('player/left0.png'),
-    load_resource('player/left1.png'),
+    load_resource("player/left0.png"),
+    load_resource("player/left1.png"),
 ]
 
 
