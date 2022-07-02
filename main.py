@@ -4,7 +4,7 @@ from game import Game
 SCREEN_WIDTH = 720  # px
 SCREEN_HEIGHT = 720  # px
 TILE_SIZE = 64  # px
-MAP_SIZE = 32  # tiles
+MAP_SIZE = 80  # tiles
 
 pygame.init()
 pygame.font.init()

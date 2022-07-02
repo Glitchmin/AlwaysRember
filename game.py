@@ -3,12 +3,13 @@ import pygame as pygame
 
 from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
-from Logic.Item import Items, LightSource, Quests, Quest
+from Logic.Item import LightSource, Quests, Quest
 from Logic.Player import Player
+from Logic.Tile import Tile, TileType
 from Logic.TileSet import TileSet
 
 from Logic.QuestList import QuestList
-from helpers import load_texture
+from helpers import load_resource, load_texture
 
 
 
@@ -50,6 +51,25 @@ class Game:
             self.player.position[1]
         ].npc = self.player
         self.tileset.update_path()
+
+        self.world = load_resource('world.png')
+        self.world_material = load_resource('world-material.png')
+        for i in range(self.map_size):
+            for j in range(self.map_size):
+                pos = ((i * self.tile_size) + 32, (j * self.tile_size) + 32)
+                rgba_out = self.world_material.get_at(pos)
+                if rgba_out == (0, 0, 0, 0):
+                    self.tileset.tiles[i][j] = Tile(TileType.STONE)
+
+
+
+        for i in self.tileset.tiles:
+            for j in i:
+                print(j.tileType.walkable)
+
+            print()
+                
+
 
         self.quests: QuestList = QuestList()
         pass
@@ -191,16 +211,13 @@ class Game:
 
         pygame.draw.circle(self.screen, (0, 0, 255), (250, 250), 75)
 
+        self.camera.render(self.world, 0, 0)
+
         # draw ground texture
         for i in range(len(self.tileset.tiles)):
             for j in range(len(self.tileset.tiles[i])):
+                tile = self.tileset[i][j]
 
-                # draw terrain
-                tile = self.tileset.tiles[i][j]
-                self.camera.render(tile.tileType.texture, i, j)
-
-                if tile.item:
-                    self.camera.render(tile.item.texture, i, j)
                 # apply night
 
                 # draw any game objects that are in this tile
