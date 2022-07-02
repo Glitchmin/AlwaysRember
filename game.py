@@ -30,8 +30,8 @@ class Game:
         self.map_size = map_size
         self.font = font
         self.black_square = load_texture("square.png")
-        self.DAYTIME_LENGTH = 20
-        self.NIGHT_LENGTH = 20
+        self.DAYTIME_LENGTH = 30 # seconds
+        self.NIGHT_LENGTH = 60 # seconds
         self.day_timer = -self.DAYTIME_LENGTH
         self.is_night = False
 
@@ -53,6 +53,9 @@ class Game:
         self.tileset.update_path()
 
         self.spawnpoints: list[tuple[int, int]] = []
+
+        self.menu_background = load_resource("menu_bg.png")
+        self.menu_active = True
 
         self.world = load_resource('world.png')
         self.world_material = load_resource('world-material.png')
@@ -97,6 +100,9 @@ class Game:
         self.tileset.update_times(elapsed_time)
 
         key_pressed = pygame.key.get_pressed()
+        if key_pressed[pygame.K_SPACE]:
+            self.menu_active = False
+
         if self.camera.mode == CameraMode.Free:
             if key_pressed[pygame.K_a]:
                 self.camera.x -= self.camera.step_x
@@ -279,6 +285,9 @@ class Game:
             f"items: {len(Quests.quest_items)}", False, (255, 255, 255)
         )
         self.screen.blit(items_text, (100, 25))
+
+        if self.menu_active:
+            self.screen.blit(self.menu_background, (0, 0))
 
         pygame.display.flip()
 
