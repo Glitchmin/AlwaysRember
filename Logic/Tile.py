@@ -47,3 +47,7 @@ class Tile:
     @npc.setter
     def npc(self, npc: AbstractNPC | None):
         self.__npc = npc
+
+    @tileType.setter
+    def tileType(self, value):
+        self._tileType = value

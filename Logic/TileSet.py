@@ -53,15 +53,6 @@ class TileSet:
         angle_tile_player = 90.0
         tile_x = (x + 0.45) * self.tile_size - camera_x
         tile_y = (y + 0.5) * self.tile_size - camera_y
-        print(
-            x,
-            y,
-            self.player.screenX,
-            self.player.screenY,
-            tile_x,
-            tile_y,
-            self.tile_size,
-        )
         if not self.player.screenX - tile_x == 0:
             angle_tile_player = math.atan(
                 (self.player.screenY - tile_y) / (self.player.screenX - tile_x)
@@ -87,6 +78,7 @@ class TileSet:
         if self.__position_changed:
             self.update_path()
             self.__position_changed = False
+
 
     def move_npc(self, dir: Direction, npc: AbstractNPC):
         if npc.can_move():
@@ -119,6 +111,8 @@ class TileSet:
                 tileset[i][j] = Tile(TileType.STONE)
 
         tileset.add_enemy(Enemy(2, 2, 0.5, EnemyTypes.BABOL, player))
+        tileset.tiles[5][5].item = Items.sticks
+        tileset.tiles[5][5].tileType = TileType.GROUND
 
         for i in range(size):
             for j in range(size):
