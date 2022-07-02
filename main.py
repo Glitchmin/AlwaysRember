@@ -33,7 +33,7 @@ player = Player(100, player_x, player_y, pygame.image.load(open("textures/player
 
 tileset = TileSet.generate(TILEMAP_SIZE, player)
 tileset.tiles[player.position[0]][player.position[1]].npc = player
-
+tileset.update_path()
 
 while running:
     key_pressed = pygame.key.get_pressed()
@@ -68,6 +68,9 @@ while running:
                     pass
 
         print(f"player pos: {player.position}, camera pos: ({camera_x}, {camera_y})")
+
+    tileset.move_enemies()
+
 
     screen.fill((255, 255, 255))
 
