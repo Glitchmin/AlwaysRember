@@ -27,11 +27,14 @@ player_y = TILEMAP_SIZE // 2
 
 camera = Camera(screen, SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE)
 
-player = Player(100, player_x, player_y, 0.5, pygame.image.load(open("textures/player.png")))
+player = Player(
+    100, player_x, player_y, 0.5, pygame.image.load(open("textures/player.png"))
+)
 
 tileset = TileSet.generate(TILEMAP_SIZE, player)
 tileset.tiles[player.position[0]][player.position[1]].npc = player
 tileset.update_path()
+
 
 def update():
     global running
@@ -82,9 +85,9 @@ def update():
 
         print(f"player pos: {player.position}, camera pos: ({camera.x}, {camera.y})")
 
-
     # move enemies
     tileset.move_enemies()
+
 
 def render():
     camera.clear()
@@ -108,6 +111,7 @@ def render():
             camera.render(text_surface, i, j)
 
     pygame.display.flip()
+
 
 while running:
     update()

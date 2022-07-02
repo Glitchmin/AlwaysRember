@@ -1,6 +1,6 @@
 from enum import Enum
 
-import pygame
+import pygame as pygame
 
 from Logic.AbstractNPC import AbstractNPC
 from Logic.Item import AbstractItem
@@ -14,7 +14,7 @@ class TileType(Enum):
     STONE = 1
 
     @property
-    def texture(self) -> pygame.Surface:
+    def texture(self) -> pygame.surface.Surface:
         match self:
             case TileType.GROUND:
                 return ground_texture
