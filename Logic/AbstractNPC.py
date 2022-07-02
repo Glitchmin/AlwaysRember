@@ -3,11 +3,13 @@ from Logic.Direction import Direction
 
 
 class AbstractNPC:
-    def __init__(self, hp: int, x: int, y: int, texture: Surface):
+    def __init__(self, hp: int, x: int, y: int, move_cooldown: float, texture: Surface):
         self.__hp = hp
         self.__x = x
         self.__y = y
         self.__texture = texture
+        self.__time = 0
+        self.__move_cooldown = move_cooldown
 
     @property
     def hp(self):
@@ -24,3 +26,12 @@ class AbstractNPC:
     def move(self, dir: Direction):
         self.__x += dir.value[0]
         self.__y += dir.value[1]
+
+    def update_time(self, time_elapsed: float):
+        self.__time += time_elapsed
+
+    def can_move(self) -> bool:
+        if self.__time >= self.__move_cooldown:
+            self.__time -= self.__move_cooldown
+            return True
+        return False
