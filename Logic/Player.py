@@ -3,6 +3,8 @@ from Logic.Direction import Direction
 from Logic.AbstractNPC import AbstractNPC
 import Logic.Item as Items
 
+import time
+
 import pygame as pygame
 
 from helpers import load_resource

@@ -11,7 +11,7 @@ pygame.font.init()
 default_font = pygame.font.SysFont("Comic Sans MS", 15)
 pygame.display.set_caption("AlwaysRember")
 
-screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], vsync=1)
 
 
 game = Game(
