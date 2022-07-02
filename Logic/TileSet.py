@@ -21,10 +21,10 @@ class TileSet:
             [1_000_000_000 for _ in range(height)] for _ in range(width)
         ]
 
-    def update_times(self, time_elapsed: float):
-        self.player.update_time(time_elapsed)
+    def update_times(self, elapsed_time: float):
+        self.player.update_time(elapsed_time)
         for enemy in self.enemies:
-            enemy.update_time(time_elapsed)
+            enemy.update_time(elapsed_time)
 
     def move_enemies(self):
         for enemy in self.enemies:

@@ -5,12 +5,19 @@ import pygame as pygame
 
 
 class AbstractNPC:
-    def __init__(self, hp: int, x: int, y: int, move_cooldown: float, texture: pygame.Surface):
+    def __init__(
+        self,
+        hp: int,
+        x: int,
+        y: int,
+        move_cooldown: float,
+        texture: pygame.surface.Surface,
+    ):
         self.__hp = hp
         self.__x = x
         self.__y = y
         self.__texture = texture
-        self.__time = 0
+        self.__time = 0.0
         self.__move_cooldown = move_cooldown
 
     @property
@@ -29,10 +36,10 @@ class AbstractNPC:
         self.__x += dir.value[0]
         self.__y += dir.value[1]
 
-    def update_time(self, time_elapsed: float):
-        self.__time += time_elapsed
+    def update_time(self, elapsed_time: float):
+        self.__time += elapsed_time
 
-    def can_move(self)->bool:
+    def can_move(self) -> bool:
         if self.__time >= self.__move_cooldown:
             self.__time -= self.__move_cooldown
             return True

@@ -19,7 +19,7 @@ class CameraMode(Enum):
 class Camera:
     def __init__(
         self,
-        screen: pygame.Surface,
+        screen: pygame.surface.Surface,
         screen_width: int,
         screen_height: int,
         tilemap_size: int,
@@ -38,7 +38,6 @@ class Camera:
     def clear(self):
         self.screen.fill((255, 255, 255))
 
-
-    def render(self, texture: pygame.Surface, x: int, y: int):
+    def render(self, texture: pygame.surface.Surface, x: int, y: int):
         dest = ((self.tilemap_size * x) - self.x, (self.tilemap_size * y) - self.y)
         self.screen.blit(texture, dest)

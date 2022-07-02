@@ -1,7 +1,6 @@
 from enum import Enum
 
-import pygame
-from pygame.surface import Surface
+import pygame as pygame
 
 from Logic.Player import Player
 from Logic.AbstractNPC import AbstractNPC
@@ -19,7 +18,7 @@ class EnemyTypes(Enum):
     BABOL = 0
 
     @property
-    def texture(self) -> pygame.Surface:
+    def texture(self) -> pygame.surface.Surface:
         match self:
             case EnemyTypes.BABOL:
                 return babol_texture
@@ -50,7 +49,9 @@ class EnemyTypes(Enum):
 
 
 class Enemy(AbstractNPC):
-    def __init__(self, x: int, y: int, move_cooldown: float, type: EnemyTypes, player: Player):
+    def __init__(
+        self, x: int, y: int, move_cooldown: float, type: EnemyTypes, player: Player
+    ):
         super().__init__(type.hp, x, y, move_cooldown, type.texture)
         self.searchRadius = type.searchRadius
         self.searchType = type.searchType
