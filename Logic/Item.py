@@ -67,11 +67,11 @@ class Items:
     )
 
 class Quests:
-    sticks = Quest("Sticks ", load_resource("opona0.png"))
-    rubber = Quest("Rubber ", load_resource("opona0.png"))
-    pickaxe = Quest("Pickaxe ", load_resource("opona1.png"))
-    metal_scraps = Quest("Sticks, ", load_resource("opona0.png"))
-    radio = Quest("Sticks, ", load_resource("opona0.png"))
+    sticks = Quest("Sticks ", load_resource("items/item0.png"))
+    rubber = Quest("Rubber ", load_resource("items/item1.png"))
+    pickaxe = Quest("Pickaxe ", load_resource("items/item2.png"))
+    metal_scraps = Quest("Sticks, ", load_resource("items/item3.png"))
+    radio = Quest("Sticks, ", load_resource("items/item4.png"))
     quest_items = [
         sticks,
         rubber,

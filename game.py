@@ -30,9 +30,9 @@ class Game:
         self.map_size = map_size
         self.font = font
         self.black_square = load_texture("square.png")
-        self.DAYTIME_LENGTH = 10
+        self.DAYTIME_LENGTH = 20
         self.NIGHT_LENGTH = 20
-        self.day_timer = self.DAYTIME_LENGTH
+        self.day_timer = -self.DAYTIME_LENGTH
         self.is_night = False
 
         self.running = True
@@ -64,6 +64,7 @@ class Game:
                     self.tileset.tiles[i][j].tileType = TileType.STONE
                 elif rgba_out == (255, 0, 0, 255):
                     self.spawnpoints.append((i, j))
+                    print(f'spawnpoint: ({i}, {j})')
 
 
         self.quests: QuestList = QuestList()
@@ -86,7 +87,6 @@ class Game:
             if self.is_night:
                 for spawnpoint in self.spawnpoints:
                     self.tileset[spawnpoint[0]][spawnpoint[1]].item = AbstractItem.create_random()
-
 
                 self.day_timer += self.DAYTIME_LENGTH
             else:
@@ -123,13 +123,13 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if self.is_night:
                     match event.key:
-                        case pygame.K_LEFT:
+                        case pygame.K_a:
                             self.player.set_wanted_direction(Direction.LEFT)
-                        case pygame.K_RIGHT:
+                        case pygame.K_d:
                             self.player.set_wanted_direction(Direction.RIGHT)
-                        case pygame.K_UP:
+                        case pygame.K_w:
                             self.player.set_wanted_direction(Direction.UP)
-                        case pygame.K_DOWN:
+                        case pygame.K_s:
                             self.player.set_wanted_direction(Direction.DOWN)
                         case pygame.K_SPACE:
                             if (
@@ -174,13 +174,13 @@ class Game:
                             pass
             elif event.type == pygame.KEYUP:
                 match event.key:
-                    case pygame.K_LEFT:
+                    case pygame.K_a:
                         self.player.remove_direction(Direction.LEFT)
-                    case pygame.K_RIGHT:
+                    case pygame.K_d:
                         self.player.remove_direction(Direction.RIGHT)
-                    case pygame.K_UP:
+                    case pygame.K_w:
                         self.player.remove_direction(Direction.UP)
-                    case pygame.K_DOWN:
+                    case pygame.K_s:
                         self.player.remove_direction(Direction.DOWN)
                     case _:
                         pass
@@ -207,9 +207,8 @@ class Game:
 
     def render(self):
         pygame.draw.circle(self.screen, (0, 0, 255), (250, 250), 75)
-        
-        self.camera.clear()
 
+        self.camera.clear()
 
         self.camera.render(self.world, 0, 0)
 
@@ -219,6 +218,8 @@ class Game:
                 tile = self.tileset[i][j]
 
                 # apply night
+                if tile.item:
+                    self.camera.render(tile.item.texture, i, j)
 
                 # draw any game objects that are in this tile
                 if tile.npc:
