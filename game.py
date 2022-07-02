@@ -1,5 +1,6 @@
 import time
 import pygame as pygame
+from pygame.surface import Surface
 
 from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
@@ -23,6 +24,7 @@ class Game:
         self.tile_size = tile_size
         self.map_size = map_size
         self.font = font
+        self.black_square = pygame.image.load(open("textures/square.png"))
 
         self.running = True
         self.last_time = time.time()
@@ -117,6 +119,10 @@ class Game:
                 # draw terrain
                 tile = self.tileset.tiles[i][j]
                 self.camera.render(tile.tileType.texture, i, j)
+
+                #apply night
+                self.black_square.set_alpha(190)
+                self.camera.render(self.black_square, i, j)
 
                 # draw any game objects that are in this tile
                 if tile.npc:
