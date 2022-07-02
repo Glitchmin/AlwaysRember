@@ -42,6 +42,7 @@ tileset = TileSet.generate(TILEMAP_SIZE, player)
 tileset.tiles[player.position[0]][player.position[1]].npc = player
 tileset.update_path()
 
+
 def act():
     key_pressed = pygame.key.get_pressed()
     if camera.mode == CameraMode.Free:
@@ -84,6 +85,7 @@ def act():
 
     tileset.move_enemies()
 
+
 def render():
     camera.clear()
     screen.fill((255, 255, 255))
@@ -97,15 +99,10 @@ def render():
             # draw terrain
             tile = tileset.tiles[i][j]
             camera.render(tile.tileType.texture, i, j)
-            screen.blit(
-                tile.tileType.texture,
-                ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y),
-            )
+
             light.set_alpha(196)
-            screen.blit(
-                light,
-                ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y),
-            )
+            camera.render(light, i, j)
+
 
             # draw any game objects that are in this tile
             if tile.npc:
@@ -115,14 +112,11 @@ def render():
             text_surface = default_font.render(f"({i},{j})", False, (0, 0, 0))
             camera.render(text_surface, i, j)
 
-            screen.blit(
-                text_surface, ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y)
-            )
     pygame.display.flip()
+
 
 while running:
     act()
     render()
-
 
 pygame.quit()
