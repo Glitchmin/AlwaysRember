@@ -44,7 +44,13 @@ axe = Weapon(
     cooldown=1,
 )
 
-sticks = Quest("Sticks, ", pygame.image.load(open("resources/opona0.png")))
+sticks = Quest("Sticks ", pygame.image.load(open("resources/opona0.png")))
+rubber = Quest("Rubber ", pygame.image.load(open("resources/opona0.png")))
+pickaxe = Quest("Pickaxe ", pygame.image.load(open("resources/opona1.png")))
+metal_scraps = Quest("Sticks, ", pygame.image.load(open("resources/opona0.png")))
+radio = Quest("Sticks, ", pygame.image.load(open("resources/opona0.png")))
+
+quest_items = [sticks, rubber, pickaxe, metal_scraps, radio]
 
 # torch = (LightSource("Torch", radius=2, angle=360),)
 # flashlight = (LightSource("Flashlight", radius=4, angle=60),)
