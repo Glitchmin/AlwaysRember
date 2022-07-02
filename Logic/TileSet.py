@@ -75,6 +75,8 @@ class TileSet:
     def update(self):
         for enemy in self.enemies:
             if enemy.detects(self):
+                if self.next_to_player(enemy.position):
+                    enemy.attack()
                 self.move_npc(self.get_direction_to_player(enemy.position), enemy)
         if self.__position_changed:
             self.update_path()
@@ -182,3 +184,8 @@ class TileSet:
         # TODO: return random direction
 
         return result
+
+    def next_to_player(self, position: tuple[int, int]) -> bool:
+        return abs(self.player.position[0] - position[0]) + abs(self.player.position[1] - position[1]) == 1
+
+

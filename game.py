@@ -1,7 +1,5 @@
 import time
 import pygame as pygame
-from pygame import mouse
-from pygame.surface import Surface
 
 from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
@@ -63,7 +61,6 @@ class Game:
         current_time = time.time()
         elapsed_time, self.last_time = current_time - self.last_time, current_time
         self.day_timer -= elapsed_time
-        print(self.day_timer)
         if self.day_timer < 0:
             if self.is_night:
                 self.day_timer += self.DAYTIME_LENGTH

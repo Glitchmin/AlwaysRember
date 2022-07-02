@@ -77,3 +77,10 @@ class Enemy(AbstractNPC):
             direction = tileSet.get_direction_to_player(self.position).value
             new_position = (self.position[0] + direction[0], self.position[1] + direction[1])
             return tileSet.dist_to_player[new_position[0]][new_position[1]] < self.searchRadius
+
+    def attack(self):
+        if self.can_move():
+            self.player.damage(10)
+
+            # TODO: singnal being damaged (sound/animation)
+            # print(f'attacking player, hp{self.player.hp}')
