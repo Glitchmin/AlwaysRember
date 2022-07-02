@@ -31,6 +31,10 @@ class AbstractNPC:
     def texture(self) -> pygame.surface.Surface:
         return self.__texture
 
+    @texture.setter
+    def texture(self, texture: pygame.surface.Surface):
+        self.__texture = texture
+
     def move(self, dir: Direction):
         self.__x += dir.value[0]
         self.__y += dir.value[1]
