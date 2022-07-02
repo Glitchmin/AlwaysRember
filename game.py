@@ -135,7 +135,8 @@ class Game:
         # )
 
         # move enemies
-        self.tileset.update()
+        if self.is_night:
+            self.tileset.update()
 
     def render(self):
         self.camera.clear()
@@ -155,8 +156,9 @@ class Game:
                 # apply night
 
                 # draw any game objects that are in this tile
-                if tile.npc and self.is_night:
-                    self.camera.render(tile.npc.texture, i, j)
+                if tile.npc:
+                    if not type(tile.npc) == Player:
+                        self.camera.render(tile.npc.texture, i, j)
                     if type(tile.npc) == Player:
                         self.player.screenX = (
                                 self.camera.tilemap_size * (i + 0.5) - self.camera.x
