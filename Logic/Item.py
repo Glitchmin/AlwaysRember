@@ -69,13 +69,13 @@ class Items:
 class Quests:
     sticks = Quest("Sticks ", load_resource("items/item0.png"))
     rubber = Quest("Rubber ", load_resource("items/item1.png"))
-    pickaxe = Quest("Pickaxe ", load_resource("items/item2.png"))
-    metal_scraps = Quest("Sticks, ", load_resource("items/item3.png"))
-    radio = Quest("Sticks, ", load_resource("items/item4.png"))
+    poop = Quest("Poop ", load_resource("items/item2.png"))
+    metal_scraps = Quest("Metal scraps, ", load_resource("items/item3.png"))
+    bucket = Quest("Bucket, ", load_resource("items/item4.png"))
     quest_items = [
         sticks,
         rubber,
-        pickaxe,
+        poop,
         metal_scraps,
-        radio,
+        bucket,
     ]

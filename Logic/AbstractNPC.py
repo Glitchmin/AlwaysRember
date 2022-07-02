@@ -50,3 +50,7 @@ class AbstractNPC:
 
     def getDamaged(self, damage: int):
         self.__hp -= damage
+
+    def setPosition(self, position: tuple[int, int]):
+        self.__x = position[0]
+        self.__y = position[1]

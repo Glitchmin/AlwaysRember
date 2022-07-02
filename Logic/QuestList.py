@@ -4,9 +4,9 @@ class QuestList:
     def __init__(self):
         self.current = 0
         self.quests: list[list[AbstractItem]] = [
-            [Quests.sticks, Quests.pickaxe],
+            [Quests.sticks, Quests.poop],
             [Quests.rubber, Quests.metal_scraps, Quests.sticks],
-            [Quests.sticks, Quests.rubber, Quests.metal_scraps, Quests.radio]
+            [Quests.sticks, Quests.rubber, Quests.metal_scraps, Quests.bucket]
         ]
 
     def deliver(self, item: AbstractItem):

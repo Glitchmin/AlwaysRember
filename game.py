@@ -3,7 +3,7 @@ import pygame as pygame
 
 from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
-from Logic.Item import AbstractItem, LightSource, Quests
+from Logic.Item import AbstractItem, LightSource, Quests, Quest
 from Logic.Player import Player
 from Logic.Tile import  TileType
 from Logic.TileSet import TileSet
@@ -42,7 +42,7 @@ class Game:
         self.player = Player(
             hp=100,
             x=map_size // 2,
-            y=map_size // 2,
+            y=map_size - 1,
             move_cooldown=0.5,
         )
 
@@ -69,6 +69,9 @@ class Game:
                     self.spawnpoints.append((i, j))
                     print(f'spawnpoint: ({i}, {j})')
 
+        self.tileset.tiles[self.map_size // 2][self.map_size - 1]. tileType = TileType.GROUND
+        self.tileset.tiles[self.map_size // 2 - 1][self.map_size - 1]. tileType = TileType.GROUND
+
 
         self.quests: QuestList = QuestList()
         pass
@@ -82,23 +85,6 @@ class Game:
         pygame.quit()
 
     def update_input(self):
-        # get elapsed time
-        current_time = time.time()
-        elapsed_time, self.last_time = current_time - self.last_time, current_time
-        self.day_timer -= elapsed_time
-        if self.day_timer < 0:
-            if self.is_night:
-                for spawnpoint in self.spawnpoints:
-                    self.tileset[spawnpoint[0]][spawnpoint[1]].item = AbstractItem.create_random()
-
-                self.day_timer += self.DAYTIME_LENGTH
-            else:
-                self.day_timer += self.NIGHT_LENGTH
-            self.is_night = not self.is_night
-            self.camera.mode = self.camera.mode.toggle(self.camera.mode)
-
-        self.tileset.update_times(elapsed_time)
-
         key_pressed = pygame.key.get_pressed()
         if key_pressed[pygame.K_SPACE]:
             self.menu_active = False
@@ -192,6 +178,26 @@ class Game:
                         pass
 
     def update(self):
+        # get elapsed time
+        current_time = time.time()
+        elapsed_time, self.last_time = current_time - self.last_time, current_time
+        self.day_timer -= elapsed_time
+        if self.day_timer < 0:
+            if self.is_night: # day
+                for spawnpoint in self.spawnpoints:
+                    self.tileset[spawnpoint[0]][spawnpoint[1]].item = AbstractItem.create_random()
+                self.tileset[self.player.position[0]][self.player.position[1]].npc = None
+                self.player.setPosition((self.map_size // 2, self.map_size - 1))
+                self.tileset[self.player.position[0]][self.player.position[1]].npc = self.player
+
+                self.day_timer += self.DAYTIME_LENGTH
+            else: # night
+                self.day_timer += self.NIGHT_LENGTH
+            self.is_night = not self.is_night
+            self.camera.mode = self.camera.mode.toggle(self.camera.mode)
+
+        self.tileset.update_times(elapsed_time)
+
         if self.player.wanted_direction is not None:
             self.tileset.move_npc(self.player.wanted_direction, self.player)
 
