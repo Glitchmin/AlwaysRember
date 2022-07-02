@@ -1,5 +1,7 @@
 import pygame as pygame
 
+from helpers import load_resource
+
 
 class AbstractItem:
     def __init__(self, name: str, texture: pygame.surface.Surface):
@@ -30,37 +32,39 @@ class Quest(AbstractItem):
         super().__init__(name, texture)
 
 
-torch = LightSource(
-    "torch",
-    pygame.image.load(open("resources/czaszka0.png")),
-    4.0,
-    90,
-)
 
-bone = Weapon(
-    "Bone",
-    pygame.image.load(open("resources/kosc0.png")),
-    damage=1,
-    cooldown=1,
-)
+class Items:
+    torch = LightSource(
+        "torch",
+        load_resource("czaszka0.png"),
+        4.0,
+        90,
+    )
 
-axe = Weapon(
-    "Axe",
-    pygame.image.load(open("resources/kilof.png")),
-    damage=2,
-    cooldown=1,
-)
+    bone = Weapon(
+        "Bone",
+        load_resource("kosc0.png"),
+        damage=1,
+        cooldown=1,
+    )
 
-sticks = Quest("Sticks ", pygame.image.load(open("resources/opona0.png")))
-rubber = Quest("Rubber ", pygame.image.load(open("resources/opona0.png")))
-pickaxe = Quest("Pickaxe ", pygame.image.load(open("resources/opona1.png")))
-metal_scraps = Quest("Sticks, ", pygame.image.load(open("resources/opona0.png")))
-radio = Quest("Sticks, ", pygame.image.load(open("resources/opona0.png")))
+    axe = Weapon(
+        "Axe",
+        load_resource("kilof.png"),
+        damage=2,
+        cooldown=1,
+    )
 
-quest_items = [sticks, rubber, pickaxe, metal_scraps, radio]
-
-# torch = (LightSource("Torch", radius=2, angle=360),)
-# flashlight = (LightSource("Flashlight", radius=4, angle=60),)
-
-
-items = [torch, bone, axe]
+class Quests:
+    sticks = Quest("Sticks ", load_resource("opona0.png"))
+    rubber = Quest("Rubber ", load_resource("opona0.png"))
+    pickaxe = Quest("Pickaxe ", load_resource("opona1.png"))
+    metal_scraps = Quest("Sticks, ", load_resource("opona0.png"))
+    radio = Quest("Sticks, ", load_resource("opona0.png"))
+    quest_items = [
+        sticks,
+        rubber,
+        pickaxe,
+        metal_scraps,
+        radio,
+    ]

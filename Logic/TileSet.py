@@ -1,12 +1,11 @@
 import math
-from math import acos
 
 from pygame import mouse
 
 from Logic.AbstractNPC import AbstractNPC
 from Logic.Direction import Direction
 from Logic.Enemy import Enemy, EnemyTypes
-import Logic.Item as Items
+from Logic.Item import Items, Quests
 from Logic.Player import Player
 from Logic.Tile import TileType
 from Logic.Tile import Tile
@@ -118,7 +117,7 @@ class TileSet:
         for i in range(len(TileSet.item_positions)):
             tileset.tiles[TileSet.item_positions[i][0]][
                 TileSet.item_positions[i][1]
-            ].item = Items.quest_items[i]
+            ].item = Quests.quest_items[i]
             tileset.tiles[TileSet.item_positions[i][0]][
                 TileSet.item_positions[i][1]
             ].tileType = TileType.GROUND

@@ -3,11 +3,12 @@ import pygame as pygame
 
 from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
+from Logic.Item import Items, Quests
 from Logic.Player import Player
 from Logic.TileSet import TileSet
-import Logic.Item as Items
-from Logic.QuestList import QuestList
 
+from Logic.QuestList import QuestList
+from helpers import load_texture
 
 
 
@@ -27,7 +28,7 @@ class Game:
         self.tile_size = tile_size
         self.map_size = map_size
         self.font = font
-        self.black_square = pygame.image.load(open("textures/square.png"))
+        self.black_square = load_texture("square.png")
         self.DAYTIME_LENGTH = 10
         self.NIGHT_LENGTH = 20
         self.day_timer = self.DAYTIME_LENGTH
@@ -86,8 +87,8 @@ class Game:
                 self.camera.y -= self.camera.step_y
             elif key_pressed[pygame.K_s]:
                 self.camera.y += self.camera.step_y
-            elif key_pressed[pygame.K_n]:
-                self.is_night = True
+            #elif key_pressed[pygame.K_n]:
+            #    self.is_night = True
         else:
             self.camera.x = (self.player.position[0] * self.tile_size) - (
                 self.screen_width / 2
@@ -236,7 +237,7 @@ class Game:
         self.screen.blit(hp_text, (25, 25))
 
         items_text = self.font.render(
-            f"items: {len(Items.quest_items)}", False, (255, 255, 255)
+            f"items: {len(Quests.quest_items)}", False, (255, 255, 255)
         )
         self.screen.blit(items_text, (100, 25))
 
