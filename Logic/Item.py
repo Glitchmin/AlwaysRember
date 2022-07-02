@@ -29,12 +29,18 @@ class Quest(AbstractItem):
     def __init__(self, name: str, texture: pygame.surface.Surface):
         super().__init__(name, texture)
 
-
-torch = LightSource(
-    "torch",
+flashlight = LightSource(
+    "flashlight",
     pygame.image.load(open("resources/czaszka0.png")),
     4.0,
     90,
+)
+
+torch = LightSource(
+    "torch",
+    pygame.image.load(open("resources/torcz0.png")),
+    4.0,
+    180,
 )
 
 bone = Weapon(

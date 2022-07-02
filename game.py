@@ -114,7 +114,9 @@ class Game:
                                 self.tileset.tiles[self.player.position[0]][
                                     self.player.position[1]
                                 ].item
-                                is not None
+                                is not None and type(self.tileset.tiles[self.player.position[0]][
+                                    self.player.position[1]
+                                ].item) == Items.Quest
                             ):
                                 (
                                     self.player.backHand,
@@ -126,6 +128,25 @@ class Game:
                                         self.player.position[1]
                                     ].item,
                                     self.player.backHand,
+                                )
+                            if (
+                                    self.tileset.tiles[self.player.position[0]][
+                                        self.player.position[1]
+                                    ].item
+                                    is not None and type(self.tileset.tiles[self.player.position[0]][
+                                                             self.player.position[1]
+                                                         ].item) == Items.LightSource
+                            ):
+                                (
+                                    self.player.leftHand,
+                                    self.tileset.tiles[self.player.position[0]][
+                                        self.player.position[1]
+                                    ].item,
+                                ) = (
+                                    self.tileset.tiles[self.player.position[0]][
+                                        self.player.position[1]
+                                    ].item,
+                                    self.player.leftHand,
                                 )
                         case _:
                             pass

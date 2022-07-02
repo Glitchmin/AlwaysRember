@@ -132,7 +132,7 @@ class TileSet:
 
                 tile = tileset.tiles[i][j]
                 if tile.tileType == TileType.GROUND:
-                    tileset[i][j].item = Items.axe
+                    tileset[i][j].item = Items.torch
 
         return tileset
 
