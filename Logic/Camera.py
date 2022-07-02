@@ -30,10 +30,10 @@ class Camera:
         self.screen_height = screen_height
         self.tilemap_size = tilemap_size
         self.mode = mode
-        self.x = screen_width // 2 + (screen_width / 2)
-        self.y = screen_height // 2 + (screen_height / 2)
-        self.step_x = (screen_width // tilemap_size) / 4
-        self.step_y = (screen_height // tilemap_size) / 4
+        self.x = screen_width // 2 + (screen_width // 2)
+        self.y = screen_height // 2 + (screen_height // 2)
+        self.step_x = (screen_width // tilemap_size) // 4
+        self.step_y = (screen_height // tilemap_size) // 4
 
     def clear(self):
         self.screen.fill((255, 255, 255))

@@ -1,33 +1,9 @@
 from Logic.Direction import Direction
 
 from Logic.AbstractNPC import AbstractNPC
-import Logic.Item as Items
+from  Logic.Item import AbstractItem, Weapon, LightSource, Items
 
-import time
-
-import pygame as pygame
-
-from helpers import load_resource
-
-up_textures = [
-    load_resource("player/up0.png"),
-    load_resource("player/up1.png"),
-]
-
-right_textures = [
-    load_resource("player/right0.png"),
-    load_resource("player/right1.png"),
-]
-
-down_textures = [
-    load_resource("player/down0.png"),
-    load_resource("player/down1.png"),
-]
-
-left_textures = [
-    load_resource("player/left0.png"),
-    load_resource("player/left1.png"),
-]
+from helpers import load_resource, load_texture
 
 
 class Player(AbstractNPC):
@@ -43,15 +19,35 @@ class Player(AbstractNPC):
             x,
             y,
             move_cooldown,
-            pygame.image.load(open("textures/player.png")),
+            load_texture("player.png"),
         )
-        self.leftHand: Items.LightSource | None = Items.flashlight
-        self.rightHand: Items.Weapon | None = Items.axe
-        self.backHand: Items.AbstractItem | None = None
-        self.screenX: int = 0
-        self.screenY: int = 0
+        self.left_hand: LightSource | None = Items.torch
+        self.right_hand: Weapon | None = Items.axe
+        self.back_hand: AbstractItem | None = None
+        self.screen_x: int = 0
+        self.screen_y: int = 0
         self.wanted_direction: Direction | None = None
         self.second_wanted_direction: Direction | None = None
+
+        self.up_textures = [
+            load_resource("player/up0.png"),
+            load_resource("player/up1.png"),
+        ]
+
+        self.right_textures = [
+            load_resource("player/right0.png"),
+            load_resource("player/right1.png"),
+        ]
+
+        self.down_textures = [
+            load_resource("player/down0.png"),
+            load_resource("player/down1.png"),
+        ]
+
+        self.left_textures = [
+            load_resource("player/left0.png"),
+            load_resource("player/left1.png"),
+        ]
 
     def set_wanted_direction(self, direction: Direction):
         self.second_wanted_direction = self.wanted_direction
@@ -59,13 +55,13 @@ class Player(AbstractNPC):
 
         match direction:
             case Direction.UP:
-                self.texture = up_textures[0]
+                self.texture = self.up_textures[0]
             case Direction.RIGHT:
-                self.texture = right_textures[0]
+                self.texture = self.right_textures[0]
             case Direction.DOWN:
-                self.texture = down_textures[0]
+                self.texture = self.down_textures[0]
             case Direction.LEFT:
-                self.texture = left_textures[0]
+                self.texture = self.left_textures[0]
 
     def remove_direction(self, direction: Direction):
         if self.second_wanted_direction == direction:
@@ -73,5 +69,5 @@ class Player(AbstractNPC):
         elif self.wanted_direction == direction:
             self.wanted_direction = self.second_wanted_direction
             self.second_wanted_direction = None
-        self.screenX: int = 0
-        self.screenY: int = 0
+        self.screen_x: int = 0
+        self.screen_y: int = 0

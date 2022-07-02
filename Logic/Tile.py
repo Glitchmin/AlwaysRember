@@ -4,10 +4,7 @@ import pygame as pygame
 
 from Logic.AbstractNPC import AbstractNPC
 from Logic.Item import AbstractItem
-
-ground_texture = pygame.image.load(open("textures/ground.png"))
-stone_texture = pygame.image.load(open("textures/stone.png"))
-base_texture = pygame.image.load(open("resources/czaszka1.png"))
+from helpers import load_resource, load_texture
 
 
 class TileType(Enum):
@@ -15,15 +12,20 @@ class TileType(Enum):
     STONE = 1
     BASE = 2
 
+    def __init__(self, num: int):
+        self.ground_texture = load_texture("ground.png")
+        self.stone_texture = load_texture("stone.png")
+        self.base_texture = load_resource("czaszka1.png")
+
     @property
     def texture(self) -> pygame.surface.Surface:
         match self:
             case TileType.GROUND:
-                return ground_texture
+                return self.ground_texture
             case TileType.STONE:
-                return stone_texture
+                return self.stone_texture
             case TileType.BASE:
-                return base_texture
+                return self.base_texture
     @property
     def walkable(self) -> bool:
         match self:
@@ -37,7 +39,7 @@ class TileType(Enum):
 
 class Tile:
     def __init__(self, tileType: TileType):
-        self.__tileType = tileType
+        self.__tileType: TileType = tileType
         self.__npc: AbstractNPC | None = None
         self.item: AbstractItem | None = None
 
@@ -54,5 +56,5 @@ class Tile:
         self.__npc = npc
 
     @tileType.setter
-    def tileType(self, value):
+    def tileType(self, value: TileType):
         self.__tileType = value

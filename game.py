@@ -3,11 +3,12 @@ import pygame as pygame
 
 from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
+from Logic.Item import Items, LightSource, Quests, Quest
 from Logic.Player import Player
 from Logic.TileSet import TileSet
-import Logic.Item as Items
-from Logic.QuestList import QuestList
 
+from Logic.QuestList import QuestList
+from helpers import load_texture
 
 
 
@@ -27,7 +28,7 @@ class Game:
         self.tile_size = tile_size
         self.map_size = map_size
         self.font = font
-        self.black_square = pygame.image.load(open("textures/square.png"))
+        self.black_square = load_texture("square.png")
         self.DAYTIME_LENGTH = 10
         self.NIGHT_LENGTH = 20
         self.day_timer = self.DAYTIME_LENGTH
@@ -86,14 +87,14 @@ class Game:
                 self.camera.y -= self.camera.step_y
             elif key_pressed[pygame.K_s]:
                 self.camera.y += self.camera.step_y
-            elif key_pressed[pygame.K_n]:
-                self.is_night = True
+            #elif key_pressed[pygame.K_n]:
+            #    self.is_night = True
         else:
             self.camera.x = (self.player.position[0] * self.tile_size) - (
-                self.screen_width / 2
+                self.screen_width // 2
             )
             self.camera.y = (self.player.position[1] * self.tile_size) - (
-                self.screen_height / 2
+                self.screen_height // 2
             )
 
         for event in pygame.event.get():
@@ -118,10 +119,10 @@ class Game:
                                 ].item
                                 is not None and type(self.tileset.tiles[self.player.position[0]][
                                     self.player.position[1]
-                                ].item) == Items.Quest
+                                ].item) == Quest
                             ):
                                 (
-                                    self.player.backHand,
+                                    self.player.back_hand,
                                     self.tileset.tiles[self.player.position[0]][
                                         self.player.position[1]
                                     ].item,
@@ -129,7 +130,7 @@ class Game:
                                     self.tileset.tiles[self.player.position[0]][
                                         self.player.position[1]
                                     ].item,
-                                    self.player.backHand,
+                                    self.player.back_hand,
                                 )
                             if (
                                     self.tileset.tiles[self.player.position[0]][
@@ -137,10 +138,10 @@ class Game:
                                     ].item
                                     is not None and type(self.tileset.tiles[self.player.position[0]][
                                                              self.player.position[1]
-                                                         ].item) == Items.LightSource
+                                                         ].item) == LightSource
                             ):
                                 (
-                                    self.player.leftHand,
+                                    self.player.left_hand,
                                     self.tileset.tiles[self.player.position[0]][
                                         self.player.position[1]
                                     ].item,
@@ -148,7 +149,7 @@ class Game:
                                     self.tileset.tiles[self.player.position[0]][
                                         self.player.position[1]
                                     ].item,
-                                    self.player.leftHand,
+                                    self.player.left_hand,
                                 )
                         case _:
                             pass
@@ -177,10 +178,10 @@ class Game:
         if self.is_night:
             self.tileset.update()
 
-        if self.player.position == self.tileset.base and self.player.backHand is not None:
-            print(Items.quest_items, self.player.backHand)
-            self.quests.deliver(self.player.backHand)
-            self.player.backHand = None
+        if self.player.position == self.tileset.base and self.player.back_hand is not None:
+            print(Quests.quest_items, self.player.back_hand)
+            self.quests.deliver(self.player.back_hand)
+            self.player.back_hand = None
             print("item dropped")
             if self.quests.done():
                 print("Victory!")
@@ -207,10 +208,10 @@ class Game:
                     if not type(tile.npc) == Player:
                         self.camera.render(tile.npc.texture, i, j)
                     if type(tile.npc) == Player:
-                        self.player.screenX = (
+                        self.player.screen_x = (
                             self.camera.tilemap_size * (i + 0.5) - self.camera.x
                         )
-                        self.player.screenY = (
+                        self.player.screen_y = (
                             self.camera.tilemap_size * (j + 0.5) - self.camera.y
                         )
 
@@ -234,9 +235,9 @@ class Game:
             height=75,
         )
 
-        if self.player.leftHand:
+        if self.player.left_hand:
             self.screen.blit(
-                self.player.leftHand.texture, (80, self.screen_height - 95)
+                self.player.left_hand.texture, (80, self.screen_height - 95)
             )
 
         self.draw_rect_with_border(
@@ -246,9 +247,9 @@ class Game:
             height=75,
         )
 
-        if self.player.rightHand:
+        if self.player.right_hand:
             self.screen.blit(
-                self.player.rightHand.texture,
+                self.player.right_hand.texture,
                 (self.screen_width - 140, self.screen_height - 95),
             )
 
@@ -257,7 +258,7 @@ class Game:
         self.screen.blit(hp_text, (25, 25))
 
         items_text = self.font.render(
-            f"items: {len(Items.quest_items)}", False, (255, 255, 255)
+            f"items: {len(Quests.quest_items)}", False, (255, 255, 255)
         )
         self.screen.blit(items_text, (100, 25))
 

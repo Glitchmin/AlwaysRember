@@ -1,12 +1,11 @@
 import math
-from math import acos
 
 from pygame import mouse
 
 from Logic.AbstractNPC import AbstractNPC
 from Logic.Direction import Direction
 from Logic.Enemy import Enemy, EnemyTypes
-import Logic.Item as Items
+from Logic.Item import Items, Quests
 from Logic.Player import Player
 from Logic.Tile import TileType
 from Logic.Tile import Tile
@@ -42,13 +41,13 @@ class TileSet:
         self, is_night: bool, x: int, y: int, camera_x: int, camera_y: int
     ) -> bool:
         angle = 90.0
-        if not self.player.screenX - mouse.get_pos()[0] == 0:
+        if not self.player.screen_x - mouse.get_pos()[0] == 0:
             angle = math.atan(
-                (self.player.screenY - mouse.get_pos()[1])
-                / (self.player.screenX - mouse.get_pos()[0])
+                (self.player.screen_y - mouse.get_pos()[1])
+                / (self.player.screen_x - mouse.get_pos()[0])
             )
             angle = math.degrees(angle)
-        if self.player.screenX <= mouse.get_pos()[0]:
+        if self.player.screen_x <= mouse.get_pos()[0]:
             angle = angle + 90
         else:
             angle = angle + 270
@@ -56,12 +55,12 @@ class TileSet:
         angle_tile_player = 90.0
         tile_x = (x + 0.45) * self.tile_size - camera_x
         tile_y = (y + 0.5) * self.tile_size - camera_y
-        if not self.player.screenX - tile_x == 0:
+        if not self.player.screen_x - tile_x == 0:
             angle_tile_player = math.atan(
-                (self.player.screenY - tile_y) / (self.player.screenX - tile_x)
+                (self.player.screen_y - tile_y) / (self.player.screen_x - tile_x)
             )
             angle_tile_player = math.degrees(angle_tile_player)
-        if self.player.screenX <= tile_x:
+        if self.player.screen_x <= tile_x:
             angle_tile_player = angle_tile_player + 90
         else:
             angle_tile_player = angle_tile_player + 270
@@ -71,9 +70,9 @@ class TileSet:
         else:
             return (
                 (self.player.position[0] - x) ** 2 + (self.player.position[1] - y) ** 2
-            ) <= self.player.leftHand.radius**2 and min(
+            ) <= self.player.left_hand.radius**2 and min(
                 360 - abs(angle_tile_player - angle), abs(angle_tile_player - angle)
-            ) <= self.player.leftHand.angle
+            ) <= self.player.left_hand.angle
 
     def update(self):
         for enemy in self.enemies:
@@ -118,7 +117,7 @@ class TileSet:
         for i in range(len(TileSet.item_positions)):
             tileset.tiles[TileSet.item_positions[i][0]][
                 TileSet.item_positions[i][1]
-            ].item = Items.quest_items[i]
+            ].item = Quests.quest_items[i]
             tileset.tiles[TileSet.item_positions[i][0]][
                 TileSet.item_positions[i][1]
             ].tileType = TileType.GROUND

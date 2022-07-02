@@ -4,9 +4,7 @@ import pygame as pygame
 
 from Logic.Player import Player
 from Logic.AbstractNPC import AbstractNPC
-
-babol_texture = pygame.image.load(open("textures/enemy.png"))
-
+from helpers import load_texture
 
 class SearchType(Enum):
     SIGHT = 0
@@ -18,13 +16,16 @@ class EnemyTypes(Enum):
     BABOL = 0
     BABOL_SMELL = 1
 
+    def __init__(self, num: int):
+        self.babol_texture = load_texture("enemy.png")
+
     @property
     def texture(self) -> pygame.surface.Surface:
         match self:
             case EnemyTypes.BABOL:
-                return babol_texture
+                return self.babol_texture
             case EnemyTypes.BABOL_SMELL:
-                return babol_texture
+                return self.babol_texture
 
     @property
     def searchType(self) -> SearchType:
