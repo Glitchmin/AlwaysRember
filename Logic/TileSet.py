@@ -38,7 +38,10 @@ class TileSet:
     def is_light(self, is_night: bool, x, y, camera_x, camera_y):
         angle = 90.0
         if not self.player.screenX - mouse.get_pos()[0] == 0:
-            angle = math.atan((self.player.screenY - mouse.get_pos()[1]) / (self.player.screenX - mouse.get_pos()[0]))
+            angle = math.atan(
+                (self.player.screenY - mouse.get_pos()[1])
+                / (self.player.screenX - mouse.get_pos()[0])
+            )
             angle = math.degrees(angle)
         if self.player.screenX <= mouse.get_pos()[0]:
             angle = angle + 90
@@ -46,25 +49,35 @@ class TileSet:
             angle = angle + 270
 
         angle_tile_player = 90.0
-        tile_x = (x+0.45) * self.tile_size - camera_x
-        tile_y = (y+0.5) * self.tile_size - camera_y
-        print(x, y,self.player.screenX, self.player.screenY, tile_x, tile_y, self.tile_size)
+        tile_x = (x + 0.45) * self.tile_size - camera_x
+        tile_y = (y + 0.5) * self.tile_size - camera_y
+        print(
+            x,
+            y,
+            self.player.screenX,
+            self.player.screenY,
+            tile_x,
+            tile_y,
+            self.tile_size,
+        )
         if not self.player.screenX - tile_x == 0:
-            angle_tile_player = math.atan((self.player.screenY - tile_y) / (self.player.screenX - tile_x))
+            angle_tile_player = math.atan(
+                (self.player.screenY - tile_y) / (self.player.screenX - tile_x)
+            )
             angle_tile_player = math.degrees(angle_tile_player)
         if self.player.screenX <= tile_x:
             angle_tile_player = angle_tile_player + 90
         else:
             angle_tile_player = angle_tile_player + 270
 
-
         if not is_night:
             return True
         else:
-            return ((self.player.position[0] - x) ** 2 +
-                    (self.player.position[1] - y) ** 2) <= self.player.leftHand.radius ** 2 and \
-                   min(360 - abs(angle_tile_player - angle),
-                       abs(angle_tile_player - angle)) <= self.player.leftHand.angle
+            return (
+                (self.player.position[0] - x) ** 2 + (self.player.position[1] - y) ** 2
+            ) <= self.player.leftHand.radius**2 and min(
+                360 - abs(angle_tile_player - angle), abs(angle_tile_player - angle)
+            ) <= self.player.leftHand.angle
 
     def update(self):
         for enemy in self.enemies:
@@ -79,7 +92,7 @@ class TileSet:
             start_tile: Tile = self.tiles[npc.position[0]][npc.position[1]]
             final_tile: Tile = self.tiles[npc.position[0] + dir.value[0]][
                 npc.position[1] + dir.value[1]
-                ]
+            ]
             if final_tile.npc is None and final_tile.tileType.walkable:
                 final_tile.npc = npc
                 start_tile.npc = None
@@ -109,7 +122,7 @@ class TileSet:
             for j in range(size):
                 if random.random() > 0.01:
                     continue
-                
+
                 tile = tileset.tiles[i][j]
                 if tile.tileType == TileType.GROUND:
                     tileset[i][j].item = Items.axe
@@ -121,9 +134,9 @@ class TileSet:
 
     def walkable(self, position: tuple[int, int]):
         return (
-                self.inbounds(position)
-                and self.tiles[position[0]][position[1]].tileType.walkable
-                and self.tiles[position[0]][position[1]].npc is None
+            self.inbounds(position)
+            and self.tiles[position[0]][position[1]].tileType.walkable
+            and self.tiles[position[0]][position[1]].npc is None
         )
 
     def update_path(self):
@@ -142,12 +155,12 @@ class TileSet:
                     position[1] + val[1],
                 )
                 if (
-                        self.walkable(new_position)
-                        and self.dist_to_player[new_position[0]][new_position[1]]
-                        > self.dist_to_player[position[0]][position[1]] + 1
+                    self.walkable(new_position)
+                    and self.dist_to_player[new_position[0]][new_position[1]]
+                    > self.dist_to_player[position[0]][position[1]] + 1
                 ):
                     self.dist_to_player[new_position[0]][new_position[1]] = (
-                            self.dist_to_player[position[0]][position[1]] + 1
+                        self.dist_to_player[position[0]][position[1]] + 1
                     )
                     q.put(new_position)
 
@@ -161,8 +174,8 @@ class TileSet:
                 position[1] + val[1],
             )
             if (
-                self.inbounds(new_position) and \
-                self.dist_to_player[new_position[0]][new_position[1]]
+                self.inbounds(new_position)
+                and self.dist_to_player[new_position[0]][new_position[1]]
                 < self.dist_to_player[position[0]][position[1]]
                 and self.dist_to_player[new_position[0]][new_position[1]] < best
             ):

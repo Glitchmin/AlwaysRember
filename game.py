@@ -11,13 +11,13 @@ from Logic.TileSet import TileSet
 
 class Game:
     def __init__(
-            self,
-            screen: pygame.surface.Surface,
-            screen_width: int,
-            screen_height: int,
-            tile_size: int,
-            map_size: int,
-            font: pygame.font.Font,
+        self,
+        screen: pygame.surface.Surface,
+        screen_width: int,
+        screen_height: int,
+        tile_size: int,
+        map_size: int,
+        font: pygame.font.Font,
     ):
         self.screen = screen
         self.screen_width = screen_width
@@ -73,10 +73,10 @@ class Game:
                 self.camera.y += self.camera.step_y
         else:
             self.camera.x = (self.player.position[0] * self.tile_size) - (
-                    self.screen_width / 2
+                self.screen_width / 2
             )
             self.camera.y = (self.player.position[1] * self.tile_size) - (
-                    self.screen_height / 2
+                self.screen_height / 2
             )
 
         for event in pygame.event.get():
@@ -132,17 +132,21 @@ class Game:
                 tile = self.tileset.tiles[i][j]
                 self.camera.render(tile.tileType.texture, i, j)
 
-                #apply night
+                # apply night
                 self.black_square.set_alpha(255)
-                if not self.tileset.is_light(True,i,j, self.camera.x, self.camera.y):
+                if not self.tileset.is_light(True, i, j, self.camera.x, self.camera.y):
                     self.camera.render(self.black_square, i, j)
 
                 # draw any game objects that are in this tile
                 if tile.npc:
                     self.camera.render(tile.npc.texture, i, j)
                     if type(tile.npc) == Player:
-                        self.player.screenX = self.camera.tilemap_size * (i+0.5) - self.camera.x
-                        self.player.screenY = self.camera.tilemap_size * (j+0.5) - self.camera.y
+                        self.player.screenX = (
+                            self.camera.tilemap_size * (i + 0.5) - self.camera.x
+                        )
+                        self.player.screenY = (
+                            self.camera.tilemap_size * (j + 0.5) - self.camera.y
+                        )
 
                 # draw number of tile (for debugging)
                 text_surface = self.font.render(f"({i},{j})", False, (0, 0, 0))
