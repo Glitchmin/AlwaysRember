@@ -1,5 +1,7 @@
 import time
 import pygame as pygame
+from pygame import mouse
+from pygame.surface import Surface
 
 from Logic.Camera import Camera, CameraMode
 from Logic.Direction import Direction
@@ -23,6 +25,7 @@ class Game:
         self.tile_size = tile_size
         self.map_size = map_size
         self.font = font
+        self.black_square = pygame.image.load(open("textures/square.png"))
 
         self.running = True
         self.last_time = time.time()
@@ -36,8 +39,8 @@ class Game:
             texture=pygame.image.load(open("textures/player.png")),
         )
 
-        self.tileset = TileSet.generate(map_size, self.player)
-        self.tileset[self.player.position[0]][
+        self.tileset = TileSet.generate(map_size, self.player, tile_size)
+        self.tileset.tiles[self.player.position[0]][
             self.player.position[1]
         ].npc = self.player
         self.tileset.update_path()
@@ -129,12 +132,17 @@ class Game:
                 tile = self.tileset.tiles[i][j]
                 self.camera.render(tile.tileType.texture, i, j)
 
-                if tile.item:
-                    self.camera.render(tile.item.texture, i, j)
+                #apply night
+                self.black_square.set_alpha(255)
+                if not self.tileset.is_light(True,i,j, self.camera.x, self.camera.y):
+                    self.camera.render(self.black_square, i, j)
 
                 # draw any game objects that are in this tile
                 if tile.npc:
                     self.camera.render(tile.npc.texture, i, j)
+                    if type(tile.npc) == Player:
+                        self.player.screenX = self.camera.tilemap_size * (i+0.5) - self.camera.x
+                        self.player.screenY = self.camera.tilemap_size * (j+0.5) - self.camera.y
 
                 # draw number of tile (for debugging)
                 text_surface = self.font.render(f"({i},{j})", False, (0, 0, 0))
