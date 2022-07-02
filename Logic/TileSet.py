@@ -114,8 +114,8 @@ class TileSet:
 
         tileset.tiles[5][5].item = Items.sticks
         tileset.tiles[5][5].tileType = TileType.GROUND
-        tileset.add_enemy(Enemy(2, 2, 1, EnemyTypes.BABOL, player))
-        tileset.add_enemy(Enemy(20, 20, 1, EnemyTypes.BABOL_SMELL, player))
+        tileset.add_enemy(Enemy(2, 2, 1, 8, EnemyTypes.BABOL, player))
+        tileset.add_enemy(Enemy(20, 20, 1, 10, EnemyTypes.BABOL_SMELL, player))
 
         for i in range(size):
             for j in range(size):
