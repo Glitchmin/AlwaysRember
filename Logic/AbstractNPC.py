@@ -17,7 +17,7 @@ class AbstractNPC:
         self.__x = x
         self.__y = y
         self.__texture = texture
-        self.__time = 0
+        self.__time = 0.0
         self.__move_cooldown = move_cooldown
 
     @property
@@ -36,8 +36,8 @@ class AbstractNPC:
         self.__x += dir.value[0]
         self.__y += dir.value[1]
 
-    def update_time(self, time_elapsed: float):
-        self.__time += time_elapsed
+    def update_time(self, elapsed_time: float):
+        self.__time += elapsed_time
 
     def can_move(self) -> bool:
         if self.__time >= self.__move_cooldown:

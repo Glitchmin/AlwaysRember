@@ -1,6 +1,6 @@
 # AlwaysRember
 
-Created on UJ SpaceJam 2022
+Created on UJ SpaceJam 2022.
 
 ## Requirements
 
