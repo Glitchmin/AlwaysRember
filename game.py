@@ -190,16 +190,20 @@ class Game:
 
         # draw UI
         self.draw_rect_with_border(
-            50,
+            75,
             self.screen_height - 100,
-            width=100,
-            height=50,
+            width=75,
+            height=75,
         )
+
+        if self.player.leftHand:
+            self.screen.blit(self.player.leftHand.texture, (75, self.screen_height - 100))
+
         self.draw_rect_with_border(
-            self.screen_width - 100,
+            self.screen_width - 150,
             self.screen_height - 100,
-            width=100,
-            height=50,
+            width=75,
+            height=75,
         )
 
         hp_text = self.font.render(f"hp: {self.player.hp}", False, (0, 255, 0))
