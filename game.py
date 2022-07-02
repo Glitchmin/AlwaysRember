@@ -6,6 +6,9 @@ from Logic.Direction import Direction
 from Logic.Player import Player
 from Logic.TileSet import TileSet
 import Logic.Item as Items
+from Logic.QuestList import QuestList
+
+
 
 
 class Game:
@@ -41,11 +44,13 @@ class Game:
             move_cooldown=0.5,
         )
 
-        self.tileset = TileSet.generate(map_size, self.player, tile_size)
+        self.tileset = TileSet.generate(map_size, self.player, tile_size, map_size//2, map_size-1)
         self.tileset.tiles[self.player.position[0]][
             self.player.position[1]
         ].npc = self.player
         self.tileset.update_path()
+
+        self.quests: QuestList = QuestList()
         pass
 
     def run(self):
@@ -81,6 +86,8 @@ class Game:
                 self.camera.y -= self.camera.step_y
             elif key_pressed[pygame.K_s]:
                 self.camera.y += self.camera.step_y
+            elif key_pressed[pygame.K_n]:
+                self.is_night = True
         else:
             self.camera.x = (self.player.position[0] * self.tile_size) - (
                 self.screen_width / 2
@@ -109,7 +116,9 @@ class Game:
                                 self.tileset.tiles[self.player.position[0]][
                                     self.player.position[1]
                                 ].item
-                                is not None
+                                is not None and type(self.tileset.tiles[self.player.position[0]][
+                                    self.player.position[1]
+                                ].item) == Items.Quest
                             ):
                                 (
                                     self.player.backHand,
@@ -121,6 +130,25 @@ class Game:
                                         self.player.position[1]
                                     ].item,
                                     self.player.backHand,
+                                )
+                            if (
+                                    self.tileset.tiles[self.player.position[0]][
+                                        self.player.position[1]
+                                    ].item
+                                    is not None and type(self.tileset.tiles[self.player.position[0]][
+                                                             self.player.position[1]
+                                                         ].item) == Items.LightSource
+                            ):
+                                (
+                                    self.player.leftHand,
+                                    self.tileset.tiles[self.player.position[0]][
+                                        self.player.position[1]
+                                    ].item,
+                                ) = (
+                                    self.tileset.tiles[self.player.position[0]][
+                                        self.player.position[1]
+                                    ].item,
+                                    self.player.leftHand,
                                 )
                         case _:
                             pass
@@ -148,6 +176,14 @@ class Game:
         # move enemies
         if self.is_night:
             self.tileset.update()
+
+        if self.player.position == self.tileset.base and self.player.backHand is not None:
+            print(Items.quest_items, self.player.backHand)
+            self.quests.deliver(self.player.backHand)
+            self.player.backHand = None
+            print("item dropped")
+            if self.quests.done():
+                print("Victory!")
 
     def render(self):
         self.camera.clear()
