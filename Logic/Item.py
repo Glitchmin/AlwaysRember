@@ -9,7 +9,7 @@ class AbstractItem:
 
 class Weapon(AbstractItem):
     def __init__(
-            self, name: str, texture: pygame.surface.Surface, damage: int, cooldown: float
+        self, name: str, texture: pygame.surface.Surface, damage: int, cooldown: float
     ):
         super().__init__(name, texture)
         self.damage = damage
@@ -18,7 +18,7 @@ class Weapon(AbstractItem):
 
 class LightSource(AbstractItem):
     def __init__(
-            self, name: str, texture: pygame.surface.Surface, radius: float, angle: float
+        self, name: str, texture: pygame.surface.Surface, radius: float, angle: float
     ):
         super().__init__(name, texture)
         self.radius = radius
