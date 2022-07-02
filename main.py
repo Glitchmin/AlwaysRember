@@ -1,5 +1,5 @@
 import pygame
-from Logic.Camera import CameraMode
+from Logic.Camera import Camera, CameraMode
 from Logic.Player import Player
 from Logic.Direction import Direction
 
@@ -7,7 +7,7 @@ from Logic.TileSet import TileSet
 
 SCREEN_WIDTH = 720  # px
 SCREEN_HEIGHT = 720  # px
-TILE_SIZE = 64  # in pixels
+TILE_SIZE = 64  # px
 
 TILEMAP_SIZE = 32
 
@@ -23,14 +23,7 @@ running = True
 player_x = TILEMAP_SIZE // 2
 player_y = TILEMAP_SIZE // 2
 
-camera_x = SCREEN_WIDTH // 2 + (SCREEN_WIDTH / 2)
-camera_y = SCREEN_HEIGHT // 2 + (SCREEN_HEIGHT / 2)
-camera_step_x = (SCREEN_WIDTH // TILEMAP_SIZE) / 4
-camera_step_y = (SCREEN_HEIGHT // TILEMAP_SIZE) / 4
-
-
-camera_mode = CameraMode.Free
-
+camera = Camera(screen, SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE)
 
 player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
 
@@ -40,18 +33,18 @@ tileset.update_path()
 
 while running:
     key_pressed = pygame.key.get_pressed()
-    if camera_mode == CameraMode.Free:
+    if camera.mode == CameraMode.Free:
         if key_pressed[pygame.K_a]:
-            camera_x -= camera_step_x
+            camera.x -= camera.step_x
         elif key_pressed[pygame.K_d]:
-            camera_x += camera_step_x
+            camera.x += camera.step_x
         if key_pressed[pygame.K_w]:
-            camera_y -= camera_step_y
+            camera.y -= camera.step_y
         elif key_pressed[pygame.K_s]:
-            camera_y += camera_step_y
+            camera.y += camera.step_y
     else:
-        camera_x = (player.position[0] * TILE_SIZE) - (SCREEN_WIDTH / 2)
-        camera_y = (player.position[1] * TILE_SIZE) - (SCREEN_HEIGHT / 2)
+        camera.x = (player.position[0] * TILE_SIZE) - (SCREEN_WIDTH / 2)
+        camera.y = (player.position[1] * TILE_SIZE) - (SCREEN_HEIGHT / 2)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -72,11 +65,11 @@ while running:
                     tileset.move_npc(Direction.DOWN, player)
                     tileset.update_path()
                 case pygame.K_c:
-                    camera_mode = CameraMode.toggle(camera_mode)
+                    camera.mode = CameraMode.toggle(camera.mode)
                 case _:
                     pass
 
-        print(f"player pos: {player.position}, camera pos: ({camera_x}, {camera_y})")
+        print(f"player pos: {player.position}, camera pos: ({camera.x}, {camera.y})")
 
     tileset.move_enemies()
 
@@ -90,23 +83,15 @@ while running:
 
             # draw terrain
             tile = tileset.tiles[i][j]
-            screen.blit(
-                tile.tileType.texture,
-                ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y),
-            )
+            camera.render(tile.tileType.texture, i, j)
 
             # draw any game objects that are in this tile
             if tile.npc:
-                screen.blit(
-                    tile.npc.texture,
-                    ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y),
-                )
+                camera.render(tile.npc.texture, i, j)
 
             # draw number of tile (for debugging)
             text_surface = default_font.render(f"({i},{j})", False, (0, 0, 0))
-            screen.blit(
-                text_surface, ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y)
-            )
+            camera.render(text_surface, i, j)
 
     pygame.display.flip()
 
