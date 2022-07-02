@@ -1,4 +1,6 @@
 import pygame
+from pygame.color import Color
+
 from Logic.Camera import CameraMode
 from Logic.Player import Player
 from Logic.Direction import Direction
@@ -17,6 +19,7 @@ default_font = pygame.font.SysFont("Comic Sans MS", 15)
 pygame.display.set_caption("AlwaysRember")
 
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+light = pygame.image.load('textures/square.png')
 
 running = True
 
@@ -28,9 +31,7 @@ camera_y = SCREEN_HEIGHT // 2 + (SCREEN_HEIGHT / 2)
 camera_step_x = (SCREEN_WIDTH // TILEMAP_SIZE) / 4
 camera_step_y = (SCREEN_HEIGHT // TILEMAP_SIZE) / 4
 
-
 camera_mode = CameraMode.Free
-
 
 player = Player(100, player_x, player_y, pygame.image.load(open("textures/player.png")))
 
@@ -80,7 +81,6 @@ while running:
 
     tileset.move_enemies()
 
-
     screen.fill((255, 255, 255))
 
     pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
@@ -93,6 +93,11 @@ while running:
             tile = tileset.tiles[i][j]
             screen.blit(
                 tile.tileType.texture,
+                ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y),
+            )
+            light.set_alpha(196)
+            screen.blit(
+                light,
                 ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y),
             )
 
@@ -108,7 +113,6 @@ while running:
             screen.blit(
                 text_surface, ((TILE_SIZE * i) - camera_x, (TILE_SIZE * j) - camera_y)
             )
-
     pygame.display.flip()
 
 pygame.quit()
