@@ -30,8 +30,8 @@ class Game:
         self.map_size = map_size
         self.font = font
         self.black_square = load_texture("square.png")
-        self.DAYTIME_LENGTH = 20
-        self.NIGHT_LENGTH = 20
+        self.DAYTIME_LENGTH = 30 # seconds
+        self.NIGHT_LENGTH = 60 # seconds
         self.day_timer = -self.DAYTIME_LENGTH
         self.is_night = False
 
