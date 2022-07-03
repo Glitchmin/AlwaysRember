@@ -194,7 +194,7 @@ class Game:
             else: # night
                 self.day_timer += self.NIGHT_LENGTH
             self.is_night = not self.is_night
-            self.camera.mode = self.camera.mode.toggle(self.camera.mode)
+            self.camera.toggle_mode()
 
         self.tileset.update_times(elapsed_time)
 

@@ -7,14 +7,6 @@ class CameraMode(Enum):
     Free = 0
     Follow = 1
 
-    @staticmethod
-    def toggle(current: "CameraMode"):
-        match current:
-            case CameraMode.Free:
-                return CameraMode.Follow
-            case CameraMode.Follow:
-                return CameraMode.Free
-
 
 class Camera:
     def __init__(
@@ -26,7 +18,7 @@ class Camera:
         initial_offset: tuple[int, int],
         mode: CameraMode = CameraMode.Free,
     ):
-        self.screen = screen
+        self.__screen = screen
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.tilemap_size = tilemap_size
@@ -37,8 +29,15 @@ class Camera:
         self.step_y = (screen_height // tilemap_size)
 
     def clear(self):
-        self.screen.fill((255, 255, 255))
+        self.__screen.fill((255, 255, 255))
+
+    def toggle_mode(self):
+         match self.mode:
+            case CameraMode.Free:
+                self.mode = CameraMode.Follow
+            case CameraMode.Follow:
+                self.mode = CameraMode.Free
 
     def render(self, texture: pygame.surface.Surface, x: int, y: int):
         dest = ((self.tilemap_size * x) - self.x, (self.tilemap_size * y) - self.y)
-        self.screen.blit(texture, dest)
+        self.__screen.blit(texture, dest)
