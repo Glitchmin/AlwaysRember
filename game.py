@@ -67,7 +67,6 @@ class Game:
                     self.tileset.tiles[i][j].tileType = TileType.STONE
                 elif rgba_out == (255, 0, 0, 255):
                     self.spawnpoints.append((i, j))
-                    print(f'spawnpoint: ({i}, {j})')
 
         self.tileset.tiles[self.map_size // 2][self.map_size - 1]. tileType = TileType.GROUND
         self.tileset.tiles[self.map_size // 2 - 1][self.map_size - 1]. tileType = TileType.GROUND
@@ -229,7 +228,6 @@ class Game:
             for j in range(len(self.tileset.tiles[i])):
                 tile = self.tileset[i][j]
 
-                # apply night
                 if tile.item:
                     self.camera.render(tile.item.texture, i, j)
 
