@@ -4,7 +4,6 @@ import pygame as pygame
 
 from Logic.Player import Player
 from Logic.AbstractNPC import AbstractNPC
-from Logic.TileSet import TileSet
 from helpers import load_texture
 
 class SearchType(Enum):
