@@ -2,6 +2,7 @@ from enum import Enum
 
 import pygame as pygame
 
+from Logic.Direction import Direction
 
 class CameraMode(Enum):
     Free = 0
@@ -25,11 +26,22 @@ class Camera:
         self.mode = mode
         self.x = initial_offset[0] - screen_width // 2
         self.y = initial_offset[1] - screen_height // 2
-        self.step_x = (screen_width // tilemap_size)
-        self.step_y = (screen_height // tilemap_size)
+        self.__step_x = (screen_width // tilemap_size)
+        self.__step_y = (screen_height // tilemap_size)
 
     def clear(self):
         self.__screen.fill((255, 255, 255))
+
+    def move(self, direction: Direction):
+        match direction:
+            case Direction.UP:
+                self.y -= self.__step_y
+            case Direction.LEFT:
+                self.x -= self.__step_x
+            case Direction.DOWN:
+                self.y += self.__step_y
+            case Direction.RIGHT:
+                self.x += self.__step_x
 
     def toggle_mode(self):
          match self.mode:

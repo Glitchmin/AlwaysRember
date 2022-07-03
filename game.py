@@ -91,13 +91,13 @@ class Game:
 
         if self.camera.mode == CameraMode.Free:
             if key_pressed[pygame.K_a]:
-                self.camera.x -= self.camera.step_x
+                self.camera.move(Direction.LEFT)
             elif key_pressed[pygame.K_d]:
-                self.camera.x += self.camera.step_x
+                self.camera.move(Direction.RIGHT)
             if key_pressed[pygame.K_w]:
-                self.camera.y -= self.camera.step_y
+                self.camera.move(Direction.UP)
             elif key_pressed[pygame.K_s]:
-                self.camera.y += self.camera.step_y
+                self.camera.move(Direction.DOWN)
             #elif key_pressed[pygame.K_n]:
             #    self.is_night = True
         else:
